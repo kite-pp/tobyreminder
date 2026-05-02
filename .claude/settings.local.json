@@ -14,7 +14,11 @@
       "Read(//Users/limkibeom/Library/KeyBindings/**)",
       "WebFetch(domain:github.com)",
       "Bash(jar tf *)",
-      "Bash(grep \"/$\")"
+      "Bash(grep \"/$\")",
+      "Bash(npm --version)",
+      "Bash(npx create-next-app@latest frontend --typescript --tailwind --app --no-eslint --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm install *)",
+      "Bash(npm run *)"
     ]
   }
 }

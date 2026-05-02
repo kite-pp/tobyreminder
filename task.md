@@ -15,12 +15,12 @@
 - [ ] `domain/Subtask.java` — @Entity, id/reminder(ManyToOne)/title/completed/sortOrder/createdAt
 
 #### Repository
-- [ ] `repository/ReminderListRepository.java` — JpaRepository<ReminderList, Long>
+- [x] `repository/ReminderListRepository.java` — JpaRepository<ReminderList, Long>
 - [x] `repository/ReminderRepository.java` — JpaRepository<Reminder, Long>
 - [ ] `repository/SubtaskRepository.java` — JpaRepository<Subtask, Long>
 
 #### 설정
-- [ ] `config/WebConfig.java` — CORS 설정 (localhost:3000 허용)
+- [x] `config/WebConfig.java` — CORS 설정 (localhost:3000 허용)
 - [x] `application.properties` — H2 콘솔, JPA ddl-auto, show-sql 정리
 
 #### 테스트
@@ -30,15 +30,15 @@
 
 ### Frontend
 
-- [ ] Next.js 프로젝트 생성 (`create-next-app@latest`, TypeScript, Tailwind, App Router)
-- [ ] 패키지 설치: `@tanstack/react-query`, `zustand`, `lucide-react`
-- [ ] `tailwind.config.ts` — apple 색상 토큰 설정 (bg/text/blue/red/orange 등)
-- [ ] `lib/api.ts` — fetch 기본 설정 (baseURL: http://localhost:8080)
-- [ ] `lib/queryClient.ts` — TanStack Query 클라이언트 생성
-- [ ] `app/layout.tsx` — 전체 레이아웃 (사이드바 + 콘텐츠 영역, QueryClientProvider)
-- [ ] `app/page.tsx` — /smart/all 로 리다이렉트
-- [ ] `components/layout/Sidebar.tsx` — 사이드바 껍데기 (260px, 배경색)
-- [ ] `components/layout/MainContent.tsx` — 메인 콘텐츠 껍데기
+- [x] Next.js 프로젝트 생성 (`create-next-app@latest`, TypeScript, Tailwind, App Router)
+- [x] 패키지 설치: `@tanstack/react-query`, `zustand`, `lucide-react`
+- [x] `tailwind.config.ts` — apple 색상 토큰 설정 (bg/text/blue/red/orange 등)
+- [x] `lib/api.ts` — fetch 기본 설정 (baseURL: http://localhost:8080)
+- [x] `lib/queryClient.ts` — TanStack Query 클라이언트 생성
+- [x] `app/layout.tsx` — 전체 레이아웃 (사이드바 + 콘텐츠 영역, QueryClientProvider)
+- [x] `app/page.tsx` — /smart/all 로 리다이렉트
+- [x] `components/layout/Sidebar.tsx` — 사이드바 껍데기 (260px, 배경색)
+- [x] `components/layout/MainContent.tsx` — 메인 콘텐츠 껍데기
 
 **[ ] Phase 0 완료 기준: `./gradlew bootRun` + `npm run dev` 동시 실행, 레이아웃 틀 확인**
 
@@ -58,27 +58,27 @@
   - [x] `create(request)` — sortOrder = max+1
   - [x] `update(id, request)` — 이름/색상 수정
   - [x] `delete(id)` — cascade 삭제
-- [x] `test/service/ReminderListServiceTest.java` — findAll/create/update/delete Mockito 단위 테스트
-- [ ] `controller/ReminderListController.java`
-  - [ ] `GET /api/lists`
-  - [ ] `POST /api/lists`
-  - [ ] `PUT /api/lists/{id}`
-  - [ ] `DELETE /api/lists/{id}`
+- [x] `test/service/ReminderListServiceTest.java` — findAll/create/update/delete @SpringBootTest 통합 테스트
+- [x] `controller/ReminderListController.java`
+  - [x] `GET /api/lists`
+  - [x] `POST /api/lists`
+  - [x] `PUT /api/lists/{id}`
+  - [x] `DELETE /api/lists/{id}`
 
 ### Frontend
 
-- [ ] `types/index.ts` — ReminderList, Reminder, Subtask 타입 정의
-- [ ] `hooks/useLists.ts`
-  - [ ] `useListsQuery()`
-  - [ ] `useCreateListMutation()`
-  - [ ] `useUpdateListMutation()`
-  - [ ] `useDeleteListMutation()`
-- [ ] `components/sidebar/MyLists.tsx` — 목록 리스트 렌더링
-- [ ] `components/sidebar/ListItem.tsx` — 색상 점 + 이름 + 카운트 + 우클릭 메뉴
-- [ ] `components/sidebar/NewListButton.tsx` — "+ 목록 추가" 버튼
-- [ ] `components/sidebar/ListFormModal.tsx` — 이름 입력 + 색상 8종 선택 모달
+- [x] `types/index.ts` — ReminderList, Reminder, Subtask 타입 정의
+- [x] `hooks/useLists.ts`
+  - [x] `useListsQuery()`
+  - [x] `useCreateListMutation()`
+  - [x] `useUpdateListMutation()`
+  - [x] `useDeleteListMutation()`
+- [x] `components/sidebar/MyLists.tsx` — 목록 리스트 렌더링
+- [x] `components/sidebar/ListItem.tsx` — 색상 점 + 이름 + 카운트 + 우클릭 메뉴
+- [x] `components/sidebar/NewListButton.tsx` — "+ 목록 추가" 버튼
+- [x] `components/sidebar/ListFormModal.tsx` — 이름 입력 + 색상 8종 선택 모달
 
-**[ ] Phase 1 완료 기준: 목록 추가 → 사이드바 즉시 반영, 삭제 → 즉시 제거**
+**[x] Phase 1 완료 기준: 목록 추가 → 사이드바 즉시 반영, 삭제 → 즉시 제거**
 
 ---
 
@@ -277,7 +277,7 @@
 | Phase | 내용 | 상태 |
 |-------|------|------|
 | Phase 0 | 프로젝트 기반 구성 | 🔄 진행 중 |
-| Phase 1 | 목록(List) CRUD | ⬜ 미시작 |
+| Phase 1 | 목록(List) CRUD | ✅ 완료 |
 | Phase 2 | 리마인더 기본 CRUD | ⬜ 미시작 |
 | Phase 3 | 스마트 목록 & 라우팅 | ⬜ 미시작 |
 | Phase 4 | 상세 속성 | ⬜ 미시작 |
