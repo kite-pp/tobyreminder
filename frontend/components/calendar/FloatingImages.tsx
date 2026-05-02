@@ -36,9 +36,11 @@ export default function FloatingImages({ reminders, year, month }: Props) {
   useEffect(() => {
     const cleanups: (() => void)[] = [];
     for (const [, el] of elRefs.current) {
-      const handler = () => { el.style.top = `${randomY()}vh`; };
+      const handler = (e: AnimationEvent) => {
+        if (e.animationName === 'floatX') el.style.top = `${randomY()}vh`;
+      };
       el.addEventListener('animationiteration', handler);
-      cleanups.push(() => el.removeEventListener('animationiteration', handler));
+      cleanups.push(() => el.removeEventListener('animationiteration', handler as EventListener));
     }
     return () => cleanups.forEach((fn) => fn());
   }, [items]);
