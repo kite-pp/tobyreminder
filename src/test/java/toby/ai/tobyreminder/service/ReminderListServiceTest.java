@@ -1,49 +1,35 @@
 package toby.ai.tobyreminder.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import toby.ai.tobyreminder.domain.ReminderList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import toby.ai.tobyreminder.dto.request.ReminderListRequest;
 import toby.ai.tobyreminder.dto.response.ReminderListResponse;
 import toby.ai.tobyreminder.repository.ReminderListRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 class ReminderListServiceTest {
 
-    @Mock
-    private ReminderListRepository reminderListRepository;
-
-    @InjectMocks
+    @Autowired
     private ReminderListService reminderListService;
 
-    private ReminderList buildList(Long id, String name, String color, int sortOrder) {
-        ReminderList list = ReminderList.builder()
-                .name(name).color(color).isDefault(false).sortOrder(sortOrder)
-                .build();
-        // reflection으로 id 설정 (JPA가 할당하는 값 시뮬레이션)
-        try {
-            var field = ReminderList.class.getDeclaredField("id");
-            field.setAccessible(true);
-            field.set(list, id);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return list;
+    @Autowired
+    private ReminderListRepository reminderListRepository;
+
+    @BeforeEach
+    void setUp() {
+        reminderListRepository.deleteAll();
     }
 
     @Nested
@@ -53,10 +39,8 @@ class ReminderListServiceTest {
         @Test
         @DisplayName("sortOrder 오름차순으로 전체 목록을 반환한다")
         void findAll_returnsSortedList() {
-            ReminderList list1 = buildList(1L, "업무", "#007AFF", 0);
-            ReminderList list2 = buildList(2L, "개인", "#FF9500", 1);
-            given(reminderListRepository.findAllByOrderBySortOrderAsc())
-                    .willReturn(List.of(list1, list2));
+            reminderListService.create(new ReminderListRequest("업무", "#007AFF", null, false));
+            reminderListService.create(new ReminderListRequest("개인", "#FF9500", null, false));
 
             List<ReminderListResponse> result = reminderListService.findAll();
 
@@ -68,8 +52,6 @@ class ReminderListServiceTest {
         @Test
         @DisplayName("목록이 없으면 빈 리스트를 반환한다")
         void findAll_returnsEmptyList() {
-            given(reminderListRepository.findAllByOrderBySortOrderAsc()).willReturn(List.of());
-
             List<ReminderListResponse> result = reminderListService.findAll();
 
             assertThat(result).isEmpty();
@@ -83,11 +65,8 @@ class ReminderListServiceTest {
         @Test
         @DisplayName("첫 번째 목록 생성 시 sortOrder가 0이다")
         void create_firstList_sortOrderIsZero() {
-            given(reminderListRepository.findAllByOrderBySortOrderAsc()).willReturn(List.of());
-            given(reminderListRepository.save(any())).willAnswer(inv -> inv.getArgument(0));
-
-            ReminderListRequest request = makeRequest("업무", "#007AFF");
-            ReminderListResponse result = reminderListService.create(request);
+            ReminderListResponse result = reminderListService.create(
+                    new ReminderListRequest("업무", "#007AFF", null, false));
 
             assertThat(result.getSortOrder()).isZero();
             assertThat(result.getName()).isEqualTo("업무");
@@ -97,23 +76,19 @@ class ReminderListServiceTest {
         @Test
         @DisplayName("기존 목록이 있으면 sortOrder가 max+1이다")
         void create_appendsToEnd() {
-            ReminderList existing = buildList(1L, "기존", "#007AFF", 2);
-            given(reminderListRepository.findAllByOrderBySortOrderAsc()).willReturn(List.of(existing));
-            given(reminderListRepository.save(any())).willAnswer(inv -> inv.getArgument(0));
+            reminderListService.create(new ReminderListRequest("기존", "#007AFF", null, false));
 
-            ReminderListRequest request = makeRequest("신규", "#FF9500");
-            ReminderListResponse result = reminderListService.create(request);
+            ReminderListResponse result = reminderListService.create(
+                    new ReminderListRequest("신규", "#FF9500", null, false));
 
-            assertThat(result.getSortOrder()).isEqualTo(3);
+            assertThat(result.getSortOrder()).isEqualTo(1);
         }
 
         @Test
         @DisplayName("저장된 ReminderList를 Response로 변환하여 반환한다")
         void create_returnsResponse() {
-            given(reminderListRepository.findAllByOrderBySortOrderAsc()).willReturn(List.of());
-            given(reminderListRepository.save(any())).willAnswer(inv -> inv.getArgument(0));
-
-            ReminderListResponse result = reminderListService.create(makeRequest("업무", "#34C759"));
+            ReminderListResponse result = reminderListService.create(
+                    new ReminderListRequest("업무", "#34C759", null, false));
 
             assertThat(result.getName()).isEqualTo("업무");
             assertThat(result.getColor()).isEqualTo("#34C759");
@@ -128,10 +103,11 @@ class ReminderListServiceTest {
         @Test
         @DisplayName("존재하는 목록의 name과 color를 변경한다")
         void update_changesNameAndColor() {
-            ReminderList list = buildList(1L, "업무", "#007AFF", 0);
-            given(reminderListRepository.findById(1L)).willReturn(Optional.of(list));
+            ReminderListResponse created = reminderListService.create(
+                    new ReminderListRequest("업무", "#007AFF", null, false));
 
-            ReminderListResponse result = reminderListService.update(1L, makeRequest("개인", "#FF9500"));
+            ReminderListResponse result = reminderListService.update(
+                    created.getId(), new ReminderListRequest("개인", "#FF9500", null, false));
 
             assertThat(result.getName()).isEqualTo("개인");
             assertThat(result.getColor()).isEqualTo("#FF9500");
@@ -140,11 +116,10 @@ class ReminderListServiceTest {
         @Test
         @DisplayName("존재하지 않는 id로 update 시 EntityNotFoundException이 발생한다")
         void update_notFound_throwsException() {
-            given(reminderListRepository.findById(99L)).willReturn(Optional.empty());
-
-            assertThatThrownBy(() -> reminderListService.update(99L, makeRequest("이름", "#007AFF")))
+            assertThatThrownBy(() -> reminderListService.update(
+                    99999L, new ReminderListRequest("이름", "#007AFF", null, false)))
                     .isInstanceOf(EntityNotFoundException.class)
-                    .hasMessageContaining("99");
+                    .hasMessageContaining("99999");
         }
     }
 
@@ -155,41 +130,20 @@ class ReminderListServiceTest {
         @Test
         @DisplayName("존재하는 목록을 삭제한다")
         void delete_existingList() {
-            given(reminderListRepository.existsById(1L)).willReturn(true);
+            ReminderListResponse created = reminderListService.create(
+                    new ReminderListRequest("업무", "#007AFF", null, false));
 
-            reminderListService.delete(1L);
+            reminderListService.delete(created.getId());
 
-            then(reminderListRepository).should().deleteById(1L);
+            assertThat(reminderListRepository.findById(created.getId())).isEmpty();
         }
 
         @Test
         @DisplayName("존재하지 않는 id로 delete 시 EntityNotFoundException이 발생한다")
         void delete_notFound_throwsException() {
-            given(reminderListRepository.existsById(99L)).willReturn(false);
-
-            assertThatThrownBy(() -> reminderListService.delete(99L))
+            assertThatThrownBy(() -> reminderListService.delete(99999L))
                     .isInstanceOf(EntityNotFoundException.class)
-                    .hasMessageContaining("99");
-
-            then(reminderListRepository).should().existsById(99L);
-            then(reminderListRepository).shouldHaveNoMoreInteractions();
+                    .hasMessageContaining("99999");
         }
-    }
-
-    private ReminderListRequest makeRequest(String name, String color) {
-        try {
-            var request = new ReminderListRequest();
-            setField(request, "name", name);
-            setField(request, "color", color);
-            return request;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void setField(Object target, String fieldName, Object value) throws Exception {
-        var field = target.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        field.set(target, value);
     }
 }
