@@ -11,6 +11,11 @@ import {
 import { useListsQuery } from '@/hooks/useLists';
 import SubtaskList from './SubtaskList';
 
+function toInputValue(iso: string | null | undefined): string {
+  if (!iso) return '';
+  return new Date(iso).toISOString().slice(0, 16);
+}
+
 export default function DetailPanel() {
   const selectedReminder = useReminderStore((s) => s.selectedReminder);
   const selectReminder = useReminderStore((s) => s.selectReminder);
@@ -21,80 +26,63 @@ export default function DetailPanel() {
 
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [dueDate, setDueDate] = useState('');
 
   useEffect(() => {
     if (selectedReminder) {
       setTitle(selectedReminder.title);
       setNotes(selectedReminder.notes ?? '');
+      setStartDate(toInputValue(selectedReminder.startDate));
+      setDueDate(toInputValue(selectedReminder.dueDate));
     }
   }, [selectedReminder?.id]);
 
   const isOpen = selectedReminder !== null;
 
+  function save(patch: { startDate?: string | null; dueDate?: string | null; title?: string; notes?: string | null; listId?: number }) {
+    if (!selectedReminder) return;
+    updateReminder.mutate({
+      id: selectedReminder.id,
+      title: patch.title ?? title,
+      notes: patch.notes !== undefined ? patch.notes : (notes || null),
+      listId: patch.listId ?? selectedReminder.listId,
+      startDate: patch.startDate !== undefined ? patch.startDate : (startDate || null),
+      dueDate: patch.dueDate !== undefined ? patch.dueDate : (dueDate || null),
+    });
+  }
+
   function handleTitleBlur() {
     if (title.trim() && title !== selectedReminder!.title) {
-      updateReminder.mutate({
-        id: selectedReminder!.id,
-        title: title.trim(),
-        notes: selectedReminder!.notes,
-        listId: selectedReminder!.listId,
-      });
+      save({ title: title.trim() });
     }
   }
 
   function handleNotesBlur() {
     if (notes !== (selectedReminder!.notes ?? '')) {
-      updateReminder.mutate({
-        id: selectedReminder!.id,
-        title: selectedReminder!.title,
-        notes: notes || null,
-        listId: selectedReminder!.listId,
-      });
+      save({ notes: notes || null });
     }
   }
 
   function handleStartDateChange(e: React.ChangeEvent<HTMLInputElement>) {
-    updateReminder.mutate({
-      id: selectedReminder!.id,
-      title: selectedReminder!.title,
-      notes: selectedReminder!.notes,
-      listId: selectedReminder!.listId,
-      startDate: e.target.value || null,
-      dueDate: selectedReminder!.dueDate,
-    });
+    const val = e.target.value;
+    setStartDate(val);
+    save({ startDate: val || null });
   }
 
   function handleDueDateChange(e: React.ChangeEvent<HTMLInputElement>) {
-    updateReminder.mutate({
-      id: selectedReminder!.id,
-      title: selectedReminder!.title,
-      notes: selectedReminder!.notes,
-      listId: selectedReminder!.listId,
-      startDate: selectedReminder!.startDate,
-      dueDate: e.target.value || null,
-    });
+    const val = e.target.value;
+    setDueDate(val);
+    save({ dueDate: val || null });
   }
 
   function handleListChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    updateReminder.mutate({
-      id: selectedReminder!.id,
-      title: selectedReminder!.title,
-      notes: selectedReminder!.notes,
-      listId: Number(e.target.value),
-    });
+    save({ listId: Number(e.target.value) });
   }
 
   function handlePriorityChange(e: React.ChangeEvent<HTMLSelectElement>) {
     updatePriority.mutate({ id: selectedReminder!.id, priority: e.target.value });
   }
-
-  const startDateValue = selectedReminder?.startDate
-    ? new Date(selectedReminder.startDate).toISOString().slice(0, 16)
-    : '';
-
-  const dueDateValue = selectedReminder?.dueDate
-    ? new Date(selectedReminder.dueDate).toISOString().slice(0, 16)
-    : '';
 
   return (
     <div
@@ -143,7 +131,7 @@ export default function DetailPanel() {
               <label className="block text-xs text-apple-secondary mb-1">시작일</label>
               <input
                 type="datetime-local"
-                value={startDateValue}
+                value={startDate}
                 onChange={handleStartDateChange}
                 className="w-full text-sm text-apple-text bg-apple-bg rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-apple-blue"
               />
@@ -154,7 +142,7 @@ export default function DetailPanel() {
               <label className="block text-xs text-apple-secondary mb-1">마감일</label>
               <input
                 type="datetime-local"
-                value={dueDateValue}
+                value={dueDate}
                 onChange={handleDueDateChange}
                 className="w-full text-sm text-apple-text bg-apple-bg rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-apple-blue"
               />
