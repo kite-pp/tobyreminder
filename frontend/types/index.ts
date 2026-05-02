@@ -14,6 +14,7 @@ export interface Reminder {
   listId: number;
   title: string;
   notes: string | null;
+  imageUrl: string | null;
   startDate: string | null;
   dueDate: string | null;
   priority: 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH';

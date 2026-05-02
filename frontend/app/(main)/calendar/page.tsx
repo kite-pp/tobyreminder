@@ -155,7 +155,7 @@ export default function CalendarPage() {
                         <button
                           key={r.id}
                           onClick={() => selectReminder(r)}
-                          className={`w-full text-left text-xs px-1.5 py-0.5 rounded truncate font-medium transition-opacity hover:opacity-80 ${
+                          className={`w-full text-left text-xs px-1.5 py-0.5 rounded flex items-center gap-1 font-medium transition-opacity hover:opacity-80 ${
                             r.completed ? 'line-through opacity-40' : ''
                           }`}
                           style={{
@@ -163,7 +163,18 @@ export default function CalendarPage() {
                             color: getDueDateColor(r.dueDate!),
                           }}
                         >
-                          {r.title}
+                          {r.imageUrl && (
+                            r.imageUrl.startsWith('http') ? (
+                              <img
+                                src={r.imageUrl}
+                                alt=""
+                                className="w-3.5 h-3.5 object-contain rounded shrink-0"
+                              />
+                            ) : (
+                              <span className="shrink-0 leading-none">{r.imageUrl}</span>
+                            )
+                          )}
+                          <span className="truncate">{r.title}</span>
                         </button>
                       ))}
                       {dayReminders.length > 3 && (

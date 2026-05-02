@@ -30,6 +30,8 @@ public class Reminder {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    private String imageUrl;
+
     private LocalDateTime startDate;
 
     private LocalDateTime dueDate;
@@ -61,9 +63,10 @@ public class Reminder {
     @Builder.Default
     private List<Subtask> subtasks = new ArrayList<>();
 
-    public void update(String title, String notes, LocalDateTime startDate, LocalDateTime dueDate, Priority priority) {
+    public void update(String title, String notes, String imageUrl, LocalDateTime startDate, LocalDateTime dueDate, Priority priority) {
         this.title = title;
         this.notes = notes;
+        this.imageUrl = imageUrl;
         this.startDate = startDate;
         this.dueDate = dueDate;
         this.priority = priority;

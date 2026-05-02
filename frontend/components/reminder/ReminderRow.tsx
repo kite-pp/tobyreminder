@@ -87,6 +87,13 @@ export default function ReminderRow({ reminder, accentColor = '#007AFF' }: Props
         </button>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
+            {reminder.imageUrl && (
+              reminder.imageUrl.startsWith('http') ? (
+                <img src={reminder.imageUrl} alt="" className="w-4 h-4 object-contain rounded shrink-0" />
+              ) : (
+                <span className="text-base leading-none shrink-0">{reminder.imageUrl}</span>
+              )
+            )}
             <span
               className={`flex-1 text-sm ${
                 reminder.completed ? 'line-through opacity-40 text-apple-text' : 'text-apple-text'

@@ -16,6 +16,7 @@ public class ReminderResponse {
     private Long listId;
     private String title;
     private String notes;
+    private String imageUrl;
     private LocalDateTime startDate;
     private LocalDateTime dueDate;
     private Priority priority;
@@ -31,6 +32,7 @@ public class ReminderResponse {
                 .listId(reminder.getList() != null ? reminder.getList().getId() : null)
                 .title(reminder.getTitle())
                 .notes(reminder.getNotes())
+                .imageUrl(reminder.getImageUrl())
                 .startDate(reminder.getStartDate())
                 .dueDate(reminder.getDueDate())
                 .priority(reminder.getPriority())

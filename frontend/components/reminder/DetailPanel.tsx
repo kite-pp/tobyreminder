@@ -10,6 +10,7 @@ import {
 } from '@/hooks/useReminders';
 import { useListsQuery } from '@/hooks/useLists';
 import SubtaskList from './SubtaskList';
+import ImagePicker from './ImagePicker';
 
 function toInputValue(iso: string | null | undefined): string {
   if (!iso) return '';
@@ -28,6 +29,7 @@ export default function DetailPanel() {
   const [notes, setNotes] = useState('');
   const [startDate, setStartDate] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedReminder) {
@@ -35,20 +37,36 @@ export default function DetailPanel() {
       setNotes(selectedReminder.notes ?? '');
       setStartDate(toInputValue(selectedReminder.startDate));
       setDueDate(toInputValue(selectedReminder.dueDate));
+      setImageUrl(selectedReminder.imageUrl ?? null);
     }
   }, [selectedReminder?.id]);
 
   const isOpen = selectedReminder !== null;
 
-  function save(patch: { startDate?: string | null; dueDate?: string | null; title?: string; notes?: string | null; listId?: number }) {
+  function save(patch: { imageUrl?: string | null; startDate?: string | null; dueDate?: string | null; title?: string; notes?: string | null; listId?: number }) {
     if (!selectedReminder) return;
     updateReminder.mutate({
       id: selectedReminder.id,
       title: patch.title ?? title,
       notes: patch.notes !== undefined ? patch.notes : (notes || null),
       listId: patch.listId ?? selectedReminder.listId,
+      imageUrl: patch.imageUrl !== undefined ? patch.imageUrl : imageUrl,
       startDate: patch.startDate !== undefined ? patch.startDate : (startDate || null),
       dueDate: patch.dueDate !== undefined ? patch.dueDate : (dueDate || null),
+    });
+  }
+
+  function handleImageChange(val: string | null) {
+    setImageUrl(val);
+    if (!selectedReminder) return;
+    updateReminder.mutate({
+      id: selectedReminder.id,
+      title,
+      notes: notes || null,
+      listId: selectedReminder.listId,
+      imageUrl: val,
+      startDate: startDate || null,
+      dueDate: dueDate || null,
     });
   }
 
@@ -102,6 +120,12 @@ export default function DetailPanel() {
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-4 min-w-[320px]">
+            {/* Image / Emoji */}
+            <div>
+              <label className="block text-xs text-apple-secondary mb-1">이모지 / 이미지</label>
+              <ImagePicker value={imageUrl} onChange={handleImageChange} />
+            </div>
+
             {/* Title */}
             <div>
               <label className="block text-xs text-apple-secondary mb-1">제목</label>
