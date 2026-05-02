@@ -3,7 +3,7 @@
 ## 패키지 구조
 
 ```
-ports/in/          서비스 인터페이스
+service/ports/in/  서비스 인터페이스
 service/           서비스 구현체
 domain/            엔티티 및 도메인 모델
 repository/        JPA 리포지토리
@@ -13,7 +13,7 @@ dto/response/      응답 DTO
 
 ## 서비스 레이어
 
-- 인터페이스는 `ports/in` 패키지에 위치
+- 인터페이스는 `service/ports/in` 패키지에 위치
 - 구현체는 `service` 패키지에 `Default{InterfaceName}` 네이밍 (예: `DefaultReminderListService`)
 - 클래스 레벨에 `@Transactional(readOnly = true)`, 쓰기 메서드에만 `@Transactional` 오버라이드
 - 존재하지 않는 엔티티 조회 시 `EntityNotFoundException` 발생, 메시지에 id 포함

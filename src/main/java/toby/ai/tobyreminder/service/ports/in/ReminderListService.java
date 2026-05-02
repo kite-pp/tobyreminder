@@ -1,4 +1,4 @@
-package toby.ai.tobyreminder.ports.in;
+package toby.ai.tobyreminder.service.ports.in;
 
 import toby.ai.tobyreminder.dto.request.ReminderListRequest;
 import toby.ai.tobyreminder.dto.response.ReminderListResponse;

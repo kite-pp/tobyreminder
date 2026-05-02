@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import toby.ai.tobyreminder.domain.ReminderList;
 import toby.ai.tobyreminder.dto.request.ReminderListRequest;
 import toby.ai.tobyreminder.dto.response.ReminderListResponse;
-import toby.ai.tobyreminder.ports.in.ReminderListService;
+import toby.ai.tobyreminder.service.ports.in.ReminderListService;
 import toby.ai.tobyreminder.repository.ReminderListRepository;
 
 import java.util.List;
