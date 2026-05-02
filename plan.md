@@ -1,6 +1,11 @@
 # TobyReminder — 개발 계획 (Development Plan)
 
 > spec.md 기반. 단순한 것부터 점진적으로 기능을 추가하는 방식으로 구성.
+> **테스트 원칙**: 기능 추가/수정 시 해당 기능을 검증하는 테스트를 반드시 함께 작성한다.
+> - 도메인 엔티티: 순수 단위 테스트 (Spring/JPA 컨텍스트 없음)
+> - Service: `@ExtendWith(MockitoExtension.class)` Mock 테스트
+> - Controller: `@WebMvcTest` 슬라이스 테스트 (Spring Boot 4: `org.springframework.boot.webmvc.test.autoconfigure`)
+> - Spring Boot 4 `@DataJpaTest` 패키지: `org.springframework.boot.data.jpa.test.autoconfigure`
 
 ---
 
@@ -35,32 +40,48 @@
 
 **목표**: 백엔드 도메인 골격 + 프론트엔드 프로젝트 초기화. 화면에 "Hello" 뜨면 완료.
 
+> **테스트 원칙**: 모든 도메인 엔티티는 순수 단위 테스트(Spring/JPA 컨텍스트 없음)로 검증한다.
+
 ### Backend 작업
 
-#### 0-1. 도메인 모델 생성 (`src/main/java/toby/ai/tobyreminder/`)
+#### 0-1. 도메인 모델 생성 (`src/main/java/toby/ai/tobyreminder/`) ✅ 일부 완료
 
 ```
-domain/
-  ReminderList.java     — @Entity, id/name/color/icon/sortOrder/createdAt
-  Reminder.java         — @Entity, id/list(FK)/title/notes/dueDate/priority/flagged/completed/completedAt/sortOrder/createdAt
-  Subtask.java          — @Entity, id/reminder(FK)/title/completed/sortOrder/createdAt
+domain/                                         ← 패키지명 domain 사용 (entity 아님)
+  ReminderList.java     ✅ 완료
+    — id/name/color/icon/isDefault/sortOrder/createdAt/updatedAt
+    — 커스텀 @Builder 생성자(name,color,isDefault,sortOrder)에서 createdAt/updatedAt 설정
+    — update(name, color): name/color/updatedAt 갱신
+  Reminder.java         ✅ 완료
+    — id/list(ManyToOne)/title/notes/dueDate/priority/flagged/completed/completedAt/sortOrder/createdAt
+    — @Builder.Default createdAt = LocalDateTime.now()  (@PrePersist 사용 안 함)
+    — update(title,notes,dueDate,priority) / toggleComplete() / toggleFlag()
+  Subtask.java          ⬜ 미완료
+    — id/reminder(ManyToOne)/title/completed/sortOrder/createdAt
   enums/
-    Priority.java       — NONE, LOW, MEDIUM, HIGH
+    Priority.java       ✅ NONE, LOW, MEDIUM, HIGH
 ```
 
-- `jakarta.persistence.*` 사용 (Spring Boot 4 필수)
-- Lombok: `@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor`
-- `@PrePersist`로 `createdAt` 자동 설정
+- `jakarta.persistence.*` 사용 (Spring Boot 4 / Jakarta EE 11 필수)
+- date 자동 설정: `@PrePersist` 대신 Builder/생성자에서 `LocalDateTime.now()` 직접 할당
 - `Reminder ↔ ReminderList`: `@ManyToOne(fetch = LAZY)`
 - `Subtask ↔ Reminder`: `@ManyToOne(fetch = LAZY)`
 
-#### 0-2. Repository
+#### 0-2. Repository ✅ 일부 완료
 
 ```
 repository/
-  ReminderListRepository.java   — JpaRepository<ReminderList, Long>
-  ReminderRepository.java       — JpaRepository<Reminder, Long>
-  SubtaskRepository.java        — JpaRepository<Subtask, Long>
+  ReminderListRepository.java   ⬜ — JpaRepository<ReminderList, Long>
+  ReminderRepository.java       ✅ — JpaRepository<Reminder, Long>
+  SubtaskRepository.java        ⬜ — JpaRepository<Subtask, Long>
+```
+
+#### 0-1-T. 도메인 단위 테스트 (`src/test/java/toby/ai/tobyreminder/domain/`) ✅ 일부 완료
+
+```
+ReminderTest.java       ✅ — 생성자/update/createdAt 자동 등록 (9개 케이스)
+ReminderListTest.java   ✅ — 생성자/update/createdAt+updatedAt 자동 등록 (8개 케이스)
+SubtaskTest.java        ⬜ — Subtask 구현 후 작성
 ```
 
 #### 0-3. CORS 설정

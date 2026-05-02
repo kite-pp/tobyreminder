@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(idea *)",
+      "Bash(git init *)",
+      "Bash(git *)",
+      "Bash(./gradlew compileJava)",
+      "Bash(./gradlew test *)",
+      "Bash(./gradlew dependencies *)",
+      "Bash(xargs -I{} jar tf {})",
+      "Bash(python3 -c ' *)",
+      "Bash(xargs sed *)"
+    ]
+  }
+}

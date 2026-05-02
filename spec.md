@@ -297,39 +297,51 @@ Red / Orange / Yellow / Green / Blue / Purple / Brown / Gray (8가지, Apple Rem
 
 ## 9. 도메인 모델
 
+> 패키지: `toby.ai.tobyreminder.domain`
+> date 필드는 `@PrePersist` 대신 생성 시점(Builder/생성자)에서 설정한다.
+
 ### ReminderList
 ```
 id          Long        PK
-name        String      목록 이름
-color       String      색상 코드 (#HEX)
-icon        String      이모지 or 아이콘명
-sortOrder   Int         정렬 순서
-createdAt   DateTime
+name        String      목록 이름 (not null)
+color       String      색상 코드 (#HEX, not null)
+icon        String      이모지 or 아이콘명 (nullable)
+isDefault   Boolean     기본 목록 여부
+sortOrder   Int         정렬 순서 (not null)
+createdAt   DateTime    생성 시각 — 커스텀 @Builder 생성자에서 설정
+updatedAt   DateTime    수정 시각 — 생성/update() 호출 시 갱신
+
+생성자: @Builder(name, color, isDefault, sortOrder) — createdAt/updatedAt 자동 설정
+메서드: update(name, color) — name, color, updatedAt 변경
 ```
 
 ### Reminder
 ```
 id          Long        PK
-list        ReminderList FK (nullable → 기본 목록)
-title       String      필수
-notes       String      메모
+list        ReminderList FK (nullable, ManyToOne LAZY)
+title       String      필수 (not null)
+notes       String      메모 (nullable, TEXT)
 dueDate     DateTime    마감일시 (nullable)
-priority    Enum        NONE / LOW / MEDIUM / HIGH
-flagged     Boolean     플래그 여부
-completed   Boolean     완료 여부
-completedAt DateTime    완료 시각
-sortOrder   Int         목록 내 정렬 순서
-createdAt   DateTime
+priority    Enum        NONE / LOW / MEDIUM / HIGH (기본값: NONE)
+flagged     Boolean     플래그 여부 (기본값: false)
+completed   Boolean     완료 여부 (기본값: false)
+completedAt DateTime    완료 시각 (nullable)
+sortOrder   Int         목록 내 정렬 순서 (기본값: 0)
+createdAt   DateTime    생성 시각 — @Builder.Default = LocalDateTime.now()
+
+메서드: update(title, notes, dueDate, priority)
+        toggleComplete() — completed 토글, completedAt 설정/해제
+        toggleFlag()     — flagged 토글
 ```
 
 ### Subtask
 ```
 id          Long        PK
-reminder    Reminder    FK
+reminder    Reminder    FK (ManyToOne LAZY)
 title       String      필수
 completed   Boolean
 sortOrder   Int
-createdAt   DateTime
+createdAt   DateTime    생성 시각 — 생성 시점 설정
 ```
 
 ---

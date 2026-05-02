@@ -9,19 +9,24 @@
 ### Backend
 
 #### 도메인 모델
-- [ ] `domain/enums/Priority.java` — enum: NONE, LOW, MEDIUM, HIGH
-- [ ] `domain/ReminderList.java` — @Entity, id/name/color/icon/sortOrder/createdAt, @PrePersist
-- [ ] `domain/Reminder.java` — @Entity, id/list(ManyToOne)/title/notes/dueDate/priority/flagged/completed/completedAt/sortOrder/createdAt
+- [x] `domain/enums/Priority.java` — enum: NONE, LOW, MEDIUM, HIGH
+- [x] `domain/ReminderList.java` — id/name/color/icon/isDefault/sortOrder/createdAt/updatedAt, 커스텀 @Builder 생성자, update(name,color)
+- [x] `domain/Reminder.java` — id/list(ManyToOne)/title/notes/dueDate/priority/flagged/completed/completedAt/sortOrder/createdAt, @Builder.Default, update()/toggleComplete()/toggleFlag()
 - [ ] `domain/Subtask.java` — @Entity, id/reminder(ManyToOne)/title/completed/sortOrder/createdAt
 
 #### Repository
 - [ ] `repository/ReminderListRepository.java` — JpaRepository<ReminderList, Long>
-- [ ] `repository/ReminderRepository.java` — JpaRepository<Reminder, Long>
+- [x] `repository/ReminderRepository.java` — JpaRepository<Reminder, Long>
 - [ ] `repository/SubtaskRepository.java` — JpaRepository<Subtask, Long>
 
 #### 설정
 - [ ] `config/WebConfig.java` — CORS 설정 (localhost:3000 허용)
-- [ ] `application.properties` — H2 콘솔, JPA ddl-auto, show-sql 정리
+- [x] `application.properties` — H2 콘솔, JPA ddl-auto, show-sql 정리
+
+#### 테스트
+- [x] `test/domain/ReminderTest.java` — 생성자/update/createdAt 자동 등록 단위 테스트
+- [x] `test/domain/ReminderListTest.java` — 생성자/update/createdAt+updatedAt 자동 등록 단위 테스트
+- [ ] `test/domain/SubtaskTest.java`
 
 ### Frontend
 
@@ -36,6 +41,8 @@
 - [ ] `components/layout/MainContent.tsx` — 메인 콘텐츠 껍데기
 
 **[ ] Phase 0 완료 기준: `./gradlew bootRun` + `npm run dev` 동시 실행, 레이아웃 틀 확인**
+
+> **규칙**: 기능 추가/수정 시 해당 기능을 검증하는 단위 테스트를 반드시 함께 작성한다.
 
 ---
 
@@ -267,7 +274,7 @@
 
 | Phase | 내용 | 상태 |
 |-------|------|------|
-| Phase 0 | 프로젝트 기반 구성 | ⬜ 미시작 |
+| Phase 0 | 프로젝트 기반 구성 | 🔄 진행 중 |
 | Phase 1 | 목록(List) CRUD | ⬜ 미시작 |
 | Phase 2 | 리마인더 기본 CRUD | ⬜ 미시작 |
 | Phase 3 | 스마트 목록 & 라우팅 | ⬜ 미시작 |
