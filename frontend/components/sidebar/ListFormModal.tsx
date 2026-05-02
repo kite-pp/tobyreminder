@@ -4,14 +4,14 @@ import { useState } from 'react';
 import type { ReminderList } from '@/types';
 
 const COLORS = [
-  { label: '핫핑크', value: '#F5667A' },
-  { label: '포레스트', value: '#1A4D3A' },
-  { label: '스카이블루', value: '#2CB4D0' },
-  { label: '오렌지', value: '#F07830' },
-  { label: '라벤더', value: '#C9B4E8' },
-  { label: '옐로', value: '#F5E842' },
-  { label: '레드', value: '#E03030' },
-  { label: '세이지', value: '#8A9B78' },
+  { label: '빨강', value: '#FF3B30' },
+  { label: '주황', value: '#FF9500' },
+  { label: '노랑', value: '#FFCC00' },
+  { label: '초록', value: '#34C759' },
+  { label: '파랑', value: '#007AFF' },
+  { label: '보라', value: '#AF52DE' },
+  { label: '분홍', value: '#FF2D55' },
+  { label: '회색', value: '#8E8E93' },
 ];
 
 interface Props {
@@ -22,7 +22,7 @@ interface Props {
 
 export default function ListFormModal({ initial, onSubmit, onClose }: Props) {
   const [name, setName] = useState(initial?.name ?? '');
-  const [color, setColor] = useState(initial?.color ?? COLORS[2].value);
+  const [color, setColor] = useState(initial?.color ?? COLORS[4].value);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
