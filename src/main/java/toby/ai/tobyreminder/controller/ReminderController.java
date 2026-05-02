@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import toby.ai.tobyreminder.domain.enums.Priority;
+import toby.ai.tobyreminder.dto.request.OrderItem;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
 import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
@@ -22,10 +23,12 @@ public class ReminderController {
     @GetMapping
     public List<ReminderResponse> findReminders(
             @RequestParam(required = false) Long listId,
-            @RequestParam(required = false) String smart) {
+            @RequestParam(required = false) String smart,
+            @RequestParam(required = false) String q) {
+        if (q != null) return reminderService.search(q);
         if (smart != null) return reminderService.findBySmart(smart);
         if (listId != null) return reminderService.findByListId(listId);
-        throw new IllegalArgumentException("listId or smart is required");
+        throw new IllegalArgumentException("listId, smart, or q is required");
     }
 
     @GetMapping("/count")
@@ -62,9 +65,21 @@ public class ReminderController {
         reminderService.updatePriority(id, Priority.valueOf(body.get("priority")));
     }
 
+    @PatchMapping("/order")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void reorder(@RequestBody List<OrderItem> items) {
+        reminderService.reorder(items);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         reminderService.delete(id);
+    }
+
+    @DeleteMapping("/completed")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCompleted(@RequestParam(required = false) Long listId) {
+        reminderService.deleteCompleted(listId);
     }
 }

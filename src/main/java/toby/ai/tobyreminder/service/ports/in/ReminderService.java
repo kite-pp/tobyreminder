@@ -26,4 +26,10 @@ public interface ReminderService {
     void toggleFlag(Long id);
 
     void updatePriority(Long id, Priority priority);
+
+    List<ReminderResponse> search(String query);
+
+    void reorder(List<toby.ai.tobyreminder.dto.request.OrderItem> items);
+
+    void deleteCompleted(Long listId);
 }

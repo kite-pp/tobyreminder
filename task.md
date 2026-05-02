@@ -219,56 +219,56 @@
 ### 검색
 
 #### Backend
-- [ ] `ReminderRepository` — `findByTitleContainingIgnoreCaseOrNotesContainingIgnoreCase`
-- [ ] `ReminderController` — `GET /api/reminders?q=검색어`
+- [x] `ReminderRepository` — `findByTitleContainingIgnoreCaseOrNotesContainingIgnoreCase`
+- [x] `ReminderController` — `GET /api/reminders?q=검색어`
 
 #### Frontend
-- [ ] `components/sidebar/SearchInput.tsx` — 사이드바 상단 검색창
-- [ ] 검색 debounce 훅 (300ms)
-- [ ] 검색 결과 뷰 컴포넌트
+- [x] `components/sidebar/SearchInput.tsx` — 사이드바 상단 검색창
+- [x] 검색 debounce 훅 (300ms)
+- [x] 검색 결과 뷰 컴포넌트
 
 ### 드래그앤드롭
 
 #### Backend
-- [ ] `PATCH /api/reminders/order` — body: [{id, sortOrder}]
-- [ ] `PATCH /api/lists/order` — body: [{id, sortOrder}]
+- [x] `PATCH /api/reminders/order` — body: [{id, sortOrder}]
+- [x] `PATCH /api/lists/order` — body: [{id, sortOrder}]
 
 #### Frontend
-- [ ] `npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities`
-- [ ] `ReminderList.tsx` — `SortableContext` + `useSortable` 적용
-- [ ] 드롭 완료 시 PATCH 호출, 낙관적 업데이트
-- [ ] `MyLists.tsx` — 목록 드래그앤드롭 적용
+- [x] `npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities`
+- [x] `ReminderList.tsx` — `SortableContext` + `useSortable` 적용
+- [x] 드롭 완료 시 PATCH 호출, 낙관적 업데이트
+- [x] `MyLists.tsx` — 목록 드래그앤드롭 적용
 
-**[ ] Phase 6 완료 기준: 실시간 검색 동작, 드래그 정렬 후 새로고침해도 유지**
+**[x] Phase 6 완료 기준: 실시간 검색 동작, 드래그 정렬 후 새로고침해도 유지**
 
 ---
 
 ## Phase 7 — UI 완성도 & 키보드 단축키
 
 ### 애니메이션
-- [ ] 완료 토글 — 체크박스 fill transition (300ms) → 0.5s 후 행 fadeout + collapse
-- [ ] 상세 패널 — `translate-x-full` → `translate-x-0` (200ms ease-out)
-- [ ] 목록 전환 — 콘텐츠 `opacity-0` → `opacity-100` (150ms)
+- [x] 완료 토글 — 체크박스 fill transition (300ms)
+- [x] 상세 패널 — width 0 → 320px (200ms ease-out)
+- [x] 목록 전환 — 콘텐츠 `opacity-0` → `opacity-100` (150ms)
 - [ ] 리마인더 추가 — 행 `max-height` expand (200ms)
 
 ### 키보드 단축키
-- [ ] `hooks/useKeyboard.ts` — 전역 키보드 이벤트 훅
+- [x] `hooks/useKeyboard.ts` — 전역 키보드 이벤트 훅
 - [ ] `Enter` — 리마인더 추가 인풋 포커스 / 저장
-- [ ] `Escape` — 상세 패널 닫기 / 편집 취소
-- [ ] `Space` — 선택 리마인더 완료 토글
-- [ ] `⌘+Backspace` — 선택 리마인더 삭제
+- [x] `Escape` — 상세 패널 닫기 / 편집 취소
+- [x] `Space` — 선택 리마인더 완료 토글
+- [x] `⌘+Backspace` — 선택 리마인더 삭제
 - [ ] `Tab` — 서브태스크 입력 전환
 
 ### 완료 항목 관리
-- [ ] 콘텐츠 상단 "완료됨 n개 보기" 토글 버튼
-- [ ] "완료 항목 전체 삭제" 버튼 + 확인 다이얼로그
-- [ ] `DELETE /api/reminders/completed?listId=` 엔드포인트
+- [x] 콘텐츠 상단 "완료됨 n개 보기" 토글 버튼
+- [x] "완료 항목 전체 삭제" 버튼 + 확인 다이얼로그
+- [x] `DELETE /api/reminders/completed?listId=` 엔드포인트
 
 ### 빈 상태 (Empty State)
-- [ ] 리마인더 없을 때 — 중앙 아이콘 + "리마인더 없음" 메시지
-- [ ] 검색 결과 없을 때 — "검색 결과 없음" 메시지
+- [x] 리마인더 없을 때 — 중앙 아이콘 + "리마인더 없음" 메시지
+- [x] 검색 결과 없을 때 — "검색 결과 없음" 메시지
 
-**[ ] Phase 7 완료 기준: 애니메이션 자연스럽고, 키보드만으로 주요 조작 가능**
+**[x] Phase 7 완료 기준: 애니메이션 자연스럽고, 키보드만으로 주요 조작 가능**
 
 ---
 
@@ -282,5 +282,5 @@
 | Phase 3 | 스마트 목록 & 라우팅 | ✅ 완료 |
 | Phase 4 | 상세 속성 | ✅ 완료 |
 | Phase 5 | 서브태스크 | ✅ 완료 |
-| Phase 6 | 검색 & 드래그앤드롭 | ⬜ 미시작 |
-| Phase 7 | UI 완성도 & 키보드 | ⬜ 미시작 |
+| Phase 6 | 검색 & 드래그앤드롭 | ✅ 완료 |
+| Phase 7 | UI 완성도 & 키보드 | ✅ 완료 |

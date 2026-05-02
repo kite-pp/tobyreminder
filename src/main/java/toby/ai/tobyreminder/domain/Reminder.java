@@ -74,4 +74,8 @@ public class Reminder {
     public void toggleFlag() {
         this.flagged = !this.flagged;
     }
+
+    public void updateSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import toby.ai.tobyreminder.domain.Reminder;
 import toby.ai.tobyreminder.domain.ReminderList;
 import toby.ai.tobyreminder.domain.enums.Priority;
+import toby.ai.tobyreminder.dto.request.OrderItem;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
 import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
@@ -126,6 +127,34 @@ public class DefaultReminderService implements ReminderService {
                 .flagged(reminderRepository.countByFlaggedTrueAndCompletedFalse())
                 .completed(reminderRepository.countByCompletedTrue())
                 .build();
+    }
+
+    @Override
+    public List<ReminderResponse> search(String query) {
+        return reminderRepository
+                .findByTitleContainingIgnoreCaseOrNotesContainingIgnoreCase(query, query)
+                .stream()
+                .map(ReminderResponse::from)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public void deleteCompleted(Long listId) {
+        if (listId != null) {
+            reminderRepository.deleteByListIdAndCompletedTrue(listId);
+        } else {
+            reminderRepository.deleteByCompletedTrue();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void reorder(List<OrderItem> items) {
+        for (OrderItem item : items) {
+            Reminder reminder = getById(item.getId());
+            reminder.updateSortOrder(item.getSortOrder());
+        }
     }
 
     private Reminder getById(Long id) {

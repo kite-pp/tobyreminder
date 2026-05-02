@@ -16,4 +16,6 @@ public interface ReminderListService {
     ReminderListResponse update(Long id, ReminderListRequest request);
 
     void delete(Long id);
+
+    void reorder(List<toby.ai.tobyreminder.dto.request.OrderItem> items);
 }

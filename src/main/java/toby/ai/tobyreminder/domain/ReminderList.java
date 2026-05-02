@@ -46,4 +46,9 @@ public class ReminderList {
         this.color = color;
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void updateSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+        this.updatedAt = LocalDateTime.now();
+    }
 }

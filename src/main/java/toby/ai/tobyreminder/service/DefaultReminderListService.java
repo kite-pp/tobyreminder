@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toby.ai.tobyreminder.domain.ReminderList;
+import toby.ai.tobyreminder.dto.request.OrderItem;
 import toby.ai.tobyreminder.dto.request.ReminderListRequest;
 import toby.ai.tobyreminder.dto.response.ReminderListResponse;
 import toby.ai.tobyreminder.service.ports.in.ReminderListService;
 import toby.ai.tobyreminder.repository.ReminderListRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +68,18 @@ public class DefaultReminderListService implements ReminderListService {
             throw new EntityNotFoundException("ReminderList not found with id: " + id);
         }
         reminderListRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void reorder(List<OrderItem> items) {
+        Map<Long, ReminderList> listMap = reminderListRepository.findAll().stream()
+                .collect(java.util.stream.Collectors.toMap(ReminderList::getId, rl -> rl));
+        for (OrderItem item : items) {
+            ReminderList rl = listMap.get(item.getId());
+            if (rl == null) throw new EntityNotFoundException("ReminderList not found with id: " + item.getId());
+            rl.updateSortOrder(item.getSortOrder());
+        }
     }
 
     private ReminderList getById(Long id) {

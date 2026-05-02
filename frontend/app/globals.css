@@ -27,3 +27,12 @@ body {
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.page-fade-in {
+  animation: fadeIn 150ms ease-in;
+}

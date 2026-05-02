@@ -38,3 +38,12 @@ export function useDeleteListMutation() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
   });
 }
+
+export function useReorderListsMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (items: { id: number; sortOrder: number }[]) =>
+      api.patch('/api/lists/order', items),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+  });
+}

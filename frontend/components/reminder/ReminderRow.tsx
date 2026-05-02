@@ -66,7 +66,7 @@ export default function ReminderRow({ reminder, accentColor = '#007AFF' }: Props
       >
         <button
           onClick={handleCheckboxClick}
-          className="shrink-0 w-5 h-5 mt-0.5 rounded-full border-2 flex items-center justify-center transition-colors"
+          className="shrink-0 w-5 h-5 mt-0.5 rounded-full border-2 flex items-center justify-center transition-all duration-300"
           style={{
             borderColor: accentColor,
             backgroundColor: reminder.completed ? accentColor : 'transparent',

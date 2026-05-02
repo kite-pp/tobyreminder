@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useListsQuery } from '@/hooks/useLists';
 import ReminderList from '@/components/reminder/ReminderList';
+import CompletedSection from '@/components/reminder/CompletedSection';
 import AddReminderInput from '@/components/reminder/AddReminderInput';
 
 export default function ListPage() {
@@ -24,6 +25,7 @@ export default function ListPage() {
       </div>
       <div className="flex-1 overflow-y-auto px-2">
         <ReminderList listId={listId} accentColor={list?.color ?? '#007AFF'} />
+        <CompletedSection listId={listId} accentColor={list?.color ?? '#007AFF'} />
       </div>
       <div className="border-t border-apple-separator">
         <AddReminderInput listId={listId} />

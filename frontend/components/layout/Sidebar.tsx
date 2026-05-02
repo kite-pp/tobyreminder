@@ -3,11 +3,13 @@
 import MyLists from '@/components/sidebar/MyLists';
 import NewListButton from '@/components/sidebar/NewListButton';
 import SmartLists from '@/components/sidebar/SmartLists';
+import SearchInput from '@/components/sidebar/SearchInput';
 
 export default function Sidebar() {
   return (
     <aside className="w-[260px] shrink-0 h-full bg-apple-sidebar border-r border-apple-separator flex flex-col select-none">
       <div className="flex-1 overflow-y-auto py-3">
+        <SearchInput />
         <SmartLists />
         <MyLists />
       </div>

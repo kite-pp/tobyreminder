@@ -86,3 +86,29 @@ export function useCountQuery() {
     queryFn: () => api.get<CountResponse>('/api/reminders/count'),
   });
 }
+
+export function useSearchRemindersQuery(query: string) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, 'search', query],
+    queryFn: () => api.get<Reminder[]>(`/api/reminders?q=${encodeURIComponent(query)}`),
+    enabled: query.trim().length > 0,
+  });
+}
+
+export function useReorderRemindersMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (items: { id: number; sortOrder: number }[]) =>
+      api.patch('/api/reminders/order', items),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+  });
+}
+
+export function useDeleteCompletedMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (listId?: number) =>
+      api.delete(listId ? `/api/reminders/completed?listId=${listId}` : '/api/reminders/completed'),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+  });
+}

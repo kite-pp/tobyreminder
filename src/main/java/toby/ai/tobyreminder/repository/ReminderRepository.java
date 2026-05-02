@@ -29,4 +29,10 @@ public interface ReminderRepository extends JpaRepository<Reminder, Long> {
     long countByFlaggedTrueAndCompletedFalse();
 
     long countByCompletedTrue();
+
+    List<Reminder> findByTitleContainingIgnoreCaseOrNotesContainingIgnoreCase(String title, String notes);
+
+    void deleteByCompletedTrue();
+
+    void deleteByListIdAndCompletedTrue(Long listId);
 }
