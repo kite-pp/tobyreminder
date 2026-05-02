@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Smile, Link, X } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import type { EmojiClickData } from 'emoji-picker-react';
 
 const EmojiPicker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
@@ -15,19 +16,21 @@ export default function ImagePicker({ value, onChange }: Props) {
   const [tab, setTab] = useState<'emoji' | 'url'>('emoji');
   const [open, setOpen] = useState(false);
   const [urlInput, setUrlInput] = useState(value?.startsWith('http') ? value : '');
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const isUrl = value?.startsWith('http');
 
-  function handleEmojiClick(emojiData: { emoji: string }) {
+  function handleEmojiClick(emojiData: EmojiClickData) {
     onChange(emojiData.emoji);
     setOpen(false);
   }
 
   function handleUrlSubmit(e: React.FormEvent) {
     e.preventDefault();
-    onChange(urlInput.trim() || null);
-    setOpen(false);
+    const trimmed = urlInput.trim();
+    if (trimmed) {
+      onChange(trimmed);
+      setOpen(false);
+    }
   }
 
   function handleClear(e: React.MouseEvent) {
@@ -37,9 +40,8 @@ export default function ImagePicker({ value, onChange }: Props) {
   }
 
   return (
-    <div ref={containerRef} className="relative">
+    <div className="relative">
       <div className="flex items-center gap-2">
-        {/* Preview + trigger */}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -47,7 +49,12 @@ export default function ImagePicker({ value, onChange }: Props) {
         >
           {value ? (
             isUrl ? (
-              <img src={value} alt="" className="w-7 h-7 object-contain rounded" onError={(e) => { (e.target as HTMLImageElement).src = ''; }} />
+              <img
+                src={value}
+                alt=""
+                className="w-7 h-7 object-contain rounded"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
             ) : (
               <span>{value}</span>
             )
@@ -70,12 +77,12 @@ export default function ImagePicker({ value, onChange }: Props) {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute left-0 top-12 z-50 bg-apple-card rounded-2xl shadow-xl overflow-hidden border border-apple-separator w-72">
+          <div className="absolute left-0 top-12 z-50 bg-apple-card rounded-2xl shadow-xl overflow-hidden border border-apple-separator w-[320px]">
             {/* Tabs */}
             <div className="flex border-b border-apple-separator">
               <button
                 onClick={() => setTab('emoji')}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors ${
                   tab === 'emoji' ? 'text-apple-blue border-b-2 border-apple-blue' : 'text-apple-secondary'
                 }`}
               >
@@ -83,7 +90,7 @@ export default function ImagePicker({ value, onChange }: Props) {
               </button>
               <button
                 onClick={() => setTab('url')}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors ${
                   tab === 'url' ? 'text-apple-blue border-b-2 border-apple-blue' : 'text-apple-secondary'
                 }`}
               >
@@ -121,8 +128,8 @@ export default function ImagePicker({ value, onChange }: Props) {
                 )}
                 <button
                   type="submit"
-                  className="w-full py-1.5 rounded-lg bg-apple-blue text-white text-xs font-medium disabled:opacity-40"
                   disabled={!urlInput.trim()}
+                  className="w-full py-1.5 rounded-lg bg-apple-blue text-white text-xs font-medium disabled:opacity-40"
                 >
                   적용
                 </button>

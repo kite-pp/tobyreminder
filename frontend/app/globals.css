@@ -37,3 +37,19 @@ body {
 .page-fade-in {
   animation: fadeIn 150ms ease-in;
 }
+
+@keyframes floatRTL {
+  0%   { transform: translateX(0)      translateY(0px);   opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translateX(-110vw) translateY(var(--float-y, 0px)); opacity: 0; }
+}
+
+.float-item {
+  position: fixed;
+  pointer-events: none;
+  animation: floatRTL var(--float-dur, 12s) linear var(--float-delay, 0s) infinite;
+  will-change: transform, opacity;
+  z-index: 5;
+  font-size: var(--float-size, 28px);
+}

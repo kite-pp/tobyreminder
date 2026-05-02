@@ -45,7 +45,8 @@
       "Bash(screencapture /tmp/browser2.png)",
       "Bash(osascript)",
       "Bash(screencapture /tmp/browser3.png)",
-      "Bash(osascript *)"
+      "Bash(osascript *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d['version']\\)\")"
     ]
   }
 }

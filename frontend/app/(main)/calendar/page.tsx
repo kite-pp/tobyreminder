@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import type { Reminder } from '@/types';
 import { useReminderStore } from '@/store/reminderStore';
+import FloatingImages from '@/components/calendar/FloatingImages';
 
 function getDaysInMonth(year: number, month: number) {
   return new Date(year, month + 1, 0).getDate();
@@ -74,8 +75,15 @@ export default function CalendarPage() {
   // pad to full weeks
   while (cells.length % 7 !== 0) cells.push(null);
 
+  const floatingReminders = reminders.filter(
+    (r) => r.imageUrl && r.dueDate &&
+      new Date(r.dueDate).getFullYear() === year &&
+      new Date(r.dueDate).getMonth() === month
+  );
+
   return (
     <div className="flex flex-col h-full">
+      <FloatingImages reminders={floatingReminders} year={year} month={month} />
       {/* Header */}
       <div className="flex items-center justify-between px-6 pt-6 pb-4">
         <h1 className="text-2xl font-bold text-apple-text">
