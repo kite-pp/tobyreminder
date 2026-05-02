@@ -38,18 +38,30 @@ body {
   animation: fadeIn 150ms ease-in;
 }
 
-@keyframes floatRTL {
-  0%   { transform: translateX(0)      translateY(0px);   opacity: 0; }
-  5%   { opacity: 1; }
-  95%  { opacity: 1; }
-  100% { transform: translateX(-110vw) translateY(var(--float-y, 0px)); opacity: 0; }
+@keyframes floatX {
+  from { transform: translateX(0px); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  to   { transform: translateX(calc(100vw - 260px)); opacity: 0; }
+}
+
+@keyframes floatWave {
+  0%   { transform: translateY(0px); }
+  25%  { transform: translateY(-35px); }
+  50%  { transform: translateY(0px); }
+  75%  { transform: translateY(35px); }
+  100% { transform: translateY(0px); }
 }
 
 .float-item {
   position: fixed;
   pointer-events: none;
-  animation: floatRTL var(--float-dur, 12s) linear var(--float-delay, 0s) infinite;
+  animation: floatX var(--float-dur, 14s) linear var(--float-delay, 0s) infinite;
   will-change: transform, opacity;
   z-index: 5;
+}
+
+.float-item-wave {
+  animation: floatWave var(--wave-dur, 4s) ease-in-out 0s infinite;
   font-size: var(--float-size, 28px);
 }
