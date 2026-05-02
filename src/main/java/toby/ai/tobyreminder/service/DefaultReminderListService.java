@@ -46,7 +46,7 @@ public class DefaultReminderListService implements ReminderListService {
         ReminderList reminderList = ReminderList.builder()
                 .name(request.getName())
                 .color(request.getColor())
-                .isDefault(request.isDefault())
+                .isDefault(Boolean.TRUE.equals(request.getIsDefault()))
                 .sortOrder(nextSortOrder)
                 .build();
 

@@ -16,5 +16,5 @@ public class ReminderListRequest {
     private String color;
     private String icon;
     @JsonProperty("isDefault")
-    private boolean isDefault;
+    private Boolean isDefault;
 }

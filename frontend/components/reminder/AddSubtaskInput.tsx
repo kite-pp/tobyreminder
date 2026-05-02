@@ -12,6 +12,7 @@ export default function AddSubtaskInput({ reminderId }: Props) {
   const createSubtask = useCreateSubtaskMutation();
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.nativeEvent.isComposing) return;
     if (e.key === 'Enter') {
       const trimmed = value.trim();
       if (trimmed) {
