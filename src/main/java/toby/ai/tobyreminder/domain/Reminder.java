@@ -5,6 +5,8 @@ import lombok.*;
 import toby.ai.tobyreminder.domain.enums.Priority;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reminders")
@@ -52,6 +54,10 @@ public class Reminder {
     @Column(nullable = false, updatable = false)
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "reminder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Subtask> subtasks = new ArrayList<>();
 
     public void update(String title, String notes, LocalDateTime dueDate, Priority priority) {
         this.title = title;

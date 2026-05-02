@@ -12,12 +12,12 @@
 - [x] `domain/enums/Priority.java` — enum: NONE, LOW, MEDIUM, HIGH
 - [x] `domain/ReminderList.java` — id/name/color/icon/isDefault/sortOrder/createdAt/updatedAt, 커스텀 @Builder 생성자, update(name,color)
 - [x] `domain/Reminder.java` — id/list(ManyToOne)/title/notes/dueDate/priority/flagged/completed/completedAt/sortOrder/createdAt, @Builder.Default, update()/toggleComplete()/toggleFlag()
-- [ ] `domain/Subtask.java` — @Entity, id/reminder(ManyToOne)/title/completed/sortOrder/createdAt
+- [x] `domain/Subtask.java` — @Entity, id/reminder(ManyToOne)/title/completed/sortOrder/createdAt
 
 #### Repository
 - [x] `repository/ReminderListRepository.java` — JpaRepository<ReminderList, Long>
 - [x] `repository/ReminderRepository.java` — JpaRepository<Reminder, Long>
-- [ ] `repository/SubtaskRepository.java` — JpaRepository<Subtask, Long>
+- [x] `repository/SubtaskRepository.java` — JpaRepository<Subtask, Long>
 
 #### 설정
 - [x] `config/WebConfig.java` — CORS 설정 (localhost:3000 허용)
@@ -26,7 +26,7 @@
 #### 테스트
 - [x] `test/domain/ReminderTest.java` — 생성자/update/createdAt 자동 등록 단위 테스트
 - [x] `test/domain/ReminderListTest.java` — 생성자/update/createdAt+updatedAt 자동 등록 단위 테스트
-- [ ] `test/domain/SubtaskTest.java`
+- [x] `test/domain/SubtaskTest.java`
 
 ### Frontend
 
@@ -186,31 +186,31 @@
 
 ### Backend
 
-- [ ] `dto/request/SubtaskRequest.java` — title
-- [ ] `dto/response/SubtaskResponse.java` — id, title, completed, sortOrder
-- [ ] `ReminderResponse`에 `List<SubtaskResponse> subtasks` 추가
-- [ ] `service/SubtaskService.java`
-  - [ ] `create(reminderId, request)`
-  - [ ] `toggleComplete(reminderId, subtaskId)`
-  - [ ] `delete(reminderId, subtaskId)`
-- [ ] `controller/SubtaskController.java`
-  - [ ] `POST /api/reminders/{id}/subtasks`
-  - [ ] `PATCH /api/reminders/{id}/subtasks/{subtaskId}/complete`
-  - [ ] `DELETE /api/reminders/{id}/subtasks/{subtaskId}`
+- [x] `dto/request/SubtaskRequest.java` — title
+- [x] `dto/response/SubtaskResponse.java` — id, title, completed, sortOrder
+- [x] `ReminderResponse`에 `List<SubtaskResponse> subtasks` 추가
+- [x] `service/SubtaskService.java`
+  - [x] `create(reminderId, request)`
+  - [x] `toggleComplete(reminderId, subtaskId)`
+  - [x] `delete(reminderId, subtaskId)`
+- [x] `controller/SubtaskController.java`
+  - [x] `POST /api/reminders/{id}/subtasks`
+  - [x] `PATCH /api/reminders/{id}/subtasks/{subtaskId}/complete`
+  - [x] `DELETE /api/reminders/{id}/subtasks/{subtaskId}`
 
 ### Frontend
 
-- [ ] `hooks/useSubtasks.ts`
-  - [ ] `useCreateSubtaskMutation()`
-  - [ ] `useToggleSubtaskMutation()`
-  - [ ] `useDeleteSubtaskMutation()`
-- [ ] `components/reminder/SubtaskList.tsx` — 서브태스크 목록 (접기/펼치기)
-- [ ] `components/reminder/SubtaskRow.tsx` — 들여쓰기 + 원형 체크박스
-- [ ] `components/reminder/AddSubtaskInput.tsx` — 상세 패널 내 추가 입력창
-- [ ] `ReminderRow.tsx` — 서브태스크 카운트 표시, chevron 토글
+- [x] `hooks/useSubtasks.ts`
+  - [x] `useCreateSubtaskMutation()`
+  - [x] `useToggleSubtaskMutation()`
+  - [x] `useDeleteSubtaskMutation()`
+- [x] `components/reminder/SubtaskList.tsx` — 서브태스크 목록 (접기/펼치기)
+- [x] `components/reminder/SubtaskRow.tsx` — 들여쓰기 + 원형 체크박스
+- [x] `components/reminder/AddSubtaskInput.tsx` — 상세 패널 내 추가 입력창
+- [x] `ReminderRow.tsx` — 서브태스크 카운트 표시, chevron 토글
 - [ ] `Tab` 키 → 서브태스크 입력 전환 연동
 
-**[ ] Phase 5 완료 기준: 서브태스크 추가·완료·삭제, 리마인더 행에 카운트 표시**
+**[x] Phase 5 완료 기준: 서브태스크 추가·완료·삭제, 리마인더 행에 카운트 표시**
 
 ---
 
@@ -281,6 +281,6 @@
 | Phase 2 | 리마인더 기본 CRUD | ✅ 완료 |
 | Phase 3 | 스마트 목록 & 라우팅 | ✅ 완료 |
 | Phase 4 | 상세 속성 | ✅ 완료 |
-| Phase 5 | 서브태스크 | ⬜ 미시작 |
+| Phase 5 | 서브태스크 | ✅ 완료 |
 | Phase 6 | 검색 & 드래그앤드롭 | ⬜ 미시작 |
 | Phase 7 | UI 완성도 & 키보드 | ⬜ 미시작 |

@@ -6,6 +6,7 @@ import toby.ai.tobyreminder.domain.Reminder;
 import toby.ai.tobyreminder.domain.enums.Priority;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -21,6 +22,7 @@ public class ReminderResponse {
     private boolean completed;
     private LocalDateTime completedAt;
     private LocalDateTime createdAt;
+    private List<SubtaskResponse> subtasks;
 
     public static ReminderResponse from(Reminder reminder) {
         return ReminderResponse.builder()
@@ -34,6 +36,7 @@ public class ReminderResponse {
                 .completed(reminder.isCompleted())
                 .completedAt(reminder.getCompletedAt())
                 .createdAt(reminder.getCreatedAt())
+                .subtasks(reminder.getSubtasks().stream().map(SubtaskResponse::from).toList())
                 .build();
     }
 }

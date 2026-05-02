@@ -21,6 +21,7 @@ export interface Reminder {
   completedAt: string | null;
   sortOrder: number;
   createdAt: string;
+  subtasks: Subtask[];
 }
 
 export interface Subtask {

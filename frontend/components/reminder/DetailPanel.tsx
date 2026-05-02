@@ -9,6 +9,7 @@ import {
   useUpdatePriorityMutation,
 } from '@/hooks/useReminders';
 import { useListsQuery } from '@/hooks/useLists';
+import SubtaskList from './SubtaskList';
 
 export default function DetailPanel() {
   const selectedReminder = useReminderStore((s) => s.selectedReminder);
@@ -179,6 +180,17 @@ export default function DetailPanel() {
               </option>
             ))}
           </select>
+        </div>
+
+        {/* Subtasks */}
+        <div>
+          <label className="block text-xs text-apple-secondary mb-1">서브태스크</label>
+          <div className="bg-apple-bg rounded-lg overflow-hidden">
+            <SubtaskList
+              reminderId={selectedReminder.id}
+              subtasks={selectedReminder.subtasks ?? []}
+            />
+          </div>
         </div>
       </div>
     </div>
