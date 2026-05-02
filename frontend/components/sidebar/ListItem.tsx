@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import type { ReminderList } from '@/types';
 import ListFormModal from './ListFormModal';
 import { useUpdateListMutation, useDeleteListMutation } from '@/hooks/useLists';
@@ -33,19 +34,21 @@ export default function ListItem({ list, reminderCount }: Props) {
 
   return (
     <>
-      <div
-        className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-apple-bg cursor-pointer"
-        onContextMenu={handleContextMenu}
-      >
-        <span
-          className="w-2.5 h-2.5 rounded-full shrink-0"
-          style={{ backgroundColor: list.color }}
-        />
-        <span className="flex-1 text-sm text-apple-text truncate">{list.name}</span>
-        {reminderCount != null && reminderCount > 0 && (
-          <span className="text-xs text-apple-secondary tabular-nums">{reminderCount}</span>
-        )}
-      </div>
+      <Link href={`/lists/${list.id}`} className="block">
+        <div
+          className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-apple-bg cursor-pointer"
+          onContextMenu={handleContextMenu}
+        >
+          <span
+            className="w-2.5 h-2.5 rounded-full shrink-0"
+            style={{ backgroundColor: list.color }}
+          />
+          <span className="flex-1 text-sm text-apple-text truncate">{list.name}</span>
+          {reminderCount != null && reminderCount > 0 && (
+            <span className="text-xs text-apple-secondary tabular-nums">{reminderCount}</span>
+          )}
+        </div>
+      </Link>
 
       {menuPos && (
         <>

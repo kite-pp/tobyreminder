@@ -86,38 +86,38 @@
 
 ### Backend
 
-- [ ] `dto/request/ReminderRequest.java` — title, notes, listId
-- [ ] `dto/response/ReminderResponse.java` — id, title, notes, completed, completedAt, createdAt, listId
-- [ ] `service/ReminderService.java`
-  - [ ] `findByListId(listId)` — 미완료 우선, sortOrder ASC
-  - [ ] `create(request)`
-  - [ ] `update(id, request)` — 제목/메모 수정
-  - [ ] `toggleComplete(id)` — completedAt 설정/해제
-  - [ ] `delete(id)`
-- [ ] `controller/ReminderController.java`
-  - [ ] `GET /api/reminders?listId=`
-  - [ ] `POST /api/reminders`
-  - [ ] `PUT /api/reminders/{id}`
-  - [ ] `PATCH /api/reminders/{id}/complete`
-  - [ ] `DELETE /api/reminders/{id}`
+- [x] `dto/request/ReminderRequest.java` — title, notes, listId
+- [x] `dto/response/ReminderResponse.java` — id, title, notes, completed, completedAt, createdAt, listId
+- [x] `service/ReminderService.java`
+  - [x] `findByListId(listId)` — 미완료 우선, sortOrder ASC
+  - [x] `create(request)`
+  - [x] `update(id, request)` — 제목/메모 수정
+  - [x] `toggleComplete(id)` — completedAt 설정/해제
+  - [x] `delete(id)`
+- [x] `controller/ReminderController.java`
+  - [x] `GET /api/reminders?listId=`
+  - [x] `POST /api/reminders`
+  - [x] `PUT /api/reminders/{id}`
+  - [x] `PATCH /api/reminders/{id}/complete`
+  - [x] `DELETE /api/reminders/{id}`
 
 ### Frontend
 
-- [ ] `hooks/useReminders.ts`
-  - [ ] `useRemindersQuery(listId)`
-  - [ ] `useCreateReminderMutation()`
-  - [ ] `useUpdateReminderMutation()`
-  - [ ] `useToggleCompleteMutation()`
-  - [ ] `useDeleteReminderMutation()`
-- [ ] `app/(main)/lists/[id]/page.tsx` — 커스텀 목록 페이지
-- [ ] `components/reminder/ReminderList.tsx` — 리마인더 목록 컨테이너
-- [ ] `components/reminder/ReminderRow.tsx`
-  - [ ] 원형 체크박스 (목록 accent color, 완료 시 fill + check)
-  - [ ] 완료 텍스트 스타일 (`line-through opacity-40`)
-  - [ ] 행 hover 스타일 (`bg-apple-bg`)
-- [ ] `components/reminder/AddReminderInput.tsx` — Enter 저장, Esc 취소
+- [x] `hooks/useReminders.ts`
+  - [x] `useRemindersQuery(listId)`
+  - [x] `useCreateReminderMutation()`
+  - [x] `useUpdateReminderMutation()`
+  - [x] `useToggleCompleteMutation()`
+  - [x] `useDeleteReminderMutation()`
+- [x] `app/(main)/lists/[id]/page.tsx` — 커스텀 목록 페이지
+- [x] `components/reminder/ReminderList.tsx` — 리마인더 목록 컨테이너
+- [x] `components/reminder/ReminderRow.tsx`
+  - [x] 원형 체크박스 (목록 accent color, 완료 시 fill + check)
+  - [x] 완료 텍스트 스타일 (`line-through opacity-40`)
+  - [x] 행 hover 스타일 (`bg-apple-bg`)
+- [x] `components/reminder/AddReminderInput.tsx` — Enter 저장, Esc 취소
 
-**[ ] Phase 2 완료 기준: 목록 클릭 → 리마인더 표시, Enter 추가, 체크박스 완료 토글**
+**[x] Phase 2 완료 기준: 목록 클릭 → 리마인더 표시, Enter 추가, 체크박스 완료 토글**
 
 ---
 
@@ -278,7 +278,7 @@
 |-------|------|------|
 | Phase 0 | 프로젝트 기반 구성 | 🔄 진행 중 |
 | Phase 1 | 목록(List) CRUD | ✅ 완료 |
-| Phase 2 | 리마인더 기본 CRUD | ⬜ 미시작 |
+| Phase 2 | 리마인더 기본 CRUD | ✅ 완료 |
 | Phase 3 | 스마트 목록 & 라우팅 | ⬜ 미시작 |
 | Phase 4 | 상세 속성 | ⬜ 미시작 |
 | Phase 5 | 서브태스크 | ⬜ 미시작 |
