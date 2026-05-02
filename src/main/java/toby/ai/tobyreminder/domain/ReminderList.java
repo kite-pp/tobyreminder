@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "reminder_lists")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReminderList {
 
     @Id
