@@ -15,6 +15,7 @@ public class ReminderRequest {
     private String title;
     private String notes;
     private Long listId;
+    private LocalDateTime startDate;
     private LocalDateTime dueDate;
     private Priority priority;
     private Boolean flagged;

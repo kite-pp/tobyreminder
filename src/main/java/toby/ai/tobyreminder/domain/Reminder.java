@@ -30,6 +30,8 @@ public class Reminder {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    private LocalDateTime startDate;
+
     private LocalDateTime dueDate;
 
     @Enumerated(EnumType.STRING)
@@ -59,9 +61,10 @@ public class Reminder {
     @Builder.Default
     private List<Subtask> subtasks = new ArrayList<>();
 
-    public void update(String title, String notes, LocalDateTime dueDate, Priority priority) {
+    public void update(String title, String notes, LocalDateTime startDate, LocalDateTime dueDate, Priority priority) {
         this.title = title;
         this.notes = notes;
+        this.startDate = startDate;
         this.dueDate = dueDate;
         this.priority = priority;
     }

@@ -31,6 +31,7 @@ export function useUpdateReminderMutation() {
       title: string;
       notes?: string | null;
       listId: number;
+      startDate?: string | null;
       dueDate?: string | null;
       priority?: string;
       flagged?: boolean;

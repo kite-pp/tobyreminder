@@ -63,6 +63,7 @@ public class DefaultReminderService implements ReminderService {
         reminder.update(
                 request.getTitle(),
                 request.getNotes(),
+                request.getStartDate(),
                 request.getDueDate(),
                 request.getPriority() != null ? request.getPriority() : reminder.getPriority()
         );
@@ -97,7 +98,7 @@ public class DefaultReminderService implements ReminderService {
     @Transactional
     public void updatePriority(Long id, Priority priority) {
         Reminder r = getById(id);
-        r.update(r.getTitle(), r.getNotes(), r.getDueDate(), priority);
+        r.update(r.getTitle(), r.getNotes(), r.getStartDate(), r.getDueDate(), priority);
     }
 
     @Override

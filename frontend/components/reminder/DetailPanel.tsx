@@ -53,14 +53,25 @@ export default function DetailPanel() {
     }
   }
 
-  function handleDueDateChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const dueDate = e.target.value || null;
+  function handleStartDateChange(e: React.ChangeEvent<HTMLInputElement>) {
     updateReminder.mutate({
       id: selectedReminder!.id,
       title: selectedReminder!.title,
       notes: selectedReminder!.notes,
       listId: selectedReminder!.listId,
-      dueDate,
+      startDate: e.target.value || null,
+      dueDate: selectedReminder!.dueDate,
+    });
+  }
+
+  function handleDueDateChange(e: React.ChangeEvent<HTMLInputElement>) {
+    updateReminder.mutate({
+      id: selectedReminder!.id,
+      title: selectedReminder!.title,
+      notes: selectedReminder!.notes,
+      listId: selectedReminder!.listId,
+      startDate: selectedReminder!.startDate,
+      dueDate: e.target.value || null,
     });
   }
 
@@ -76,6 +87,10 @@ export default function DetailPanel() {
   function handlePriorityChange(e: React.ChangeEvent<HTMLSelectElement>) {
     updatePriority.mutate({ id: selectedReminder!.id, priority: e.target.value });
   }
+
+  const startDateValue = selectedReminder?.startDate
+    ? new Date(selectedReminder.startDate).toISOString().slice(0, 16)
+    : '';
 
   const dueDateValue = selectedReminder?.dueDate
     ? new Date(selectedReminder.dueDate).toISOString().slice(0, 16)
@@ -120,6 +135,17 @@ export default function DetailPanel() {
                 onBlur={handleNotesBlur}
                 rows={3}
                 className="w-full text-sm text-apple-text bg-apple-bg rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-apple-blue resize-none"
+              />
+            </div>
+
+            {/* Start Date */}
+            <div>
+              <label className="block text-xs text-apple-secondary mb-1">시작일</label>
+              <input
+                type="datetime-local"
+                value={startDateValue}
+                onChange={handleStartDateChange}
+                className="w-full text-sm text-apple-text bg-apple-bg rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-apple-blue"
               />
             </div>
 

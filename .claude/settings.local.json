@@ -26,7 +26,26 @@
       "Bash(lsof -ti:8080)",
       "Bash(xargs kill *)",
       "Bash(curl -s http://localhost:8080/api/lists)",
-      "Bash(./gradlew build *)"
+      "Bash(./gradlew build *)",
+      "Bash(lsof -ti:3000)",
+      "Bash(open \"http://localhost:3000\")",
+      "Bash(curl -s http://localhost:8080/api/reminders/count)",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -sv http://localhost:8080/api/reminders/count)",
+      "Bash(xargs ps *)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(curl *)",
+      "Bash(screencapture -x /tmp/app_screenshot.png)",
+      "Bash(screencapture /tmp/app_screenshot.png)",
+      "Bash(open -a \"Google Chrome\" \"http://localhost:3000\")",
+      "Bash(open -a \"Safari\" \"http://localhost:3000\")",
+      "Bash(screencapture /tmp/browser.png)",
+      "Bash(osascript -e 'tell application \"Google Chrome\" to activate')",
+      "Bash(osascript -e 'tell application \"Safari\" to activate')",
+      "Bash(screencapture /tmp/browser2.png)",
+      "Bash(osascript)",
+      "Bash(screencapture /tmp/browser3.png)",
+      "Bash(osascript *)"
     ]
   }
 }

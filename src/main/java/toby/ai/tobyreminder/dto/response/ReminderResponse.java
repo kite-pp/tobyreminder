@@ -16,6 +16,7 @@ public class ReminderResponse {
     private Long listId;
     private String title;
     private String notes;
+    private LocalDateTime startDate;
     private LocalDateTime dueDate;
     private Priority priority;
     private boolean flagged;
@@ -30,6 +31,7 @@ public class ReminderResponse {
                 .listId(reminder.getList() != null ? reminder.getList().getId() : null)
                 .title(reminder.getTitle())
                 .notes(reminder.getNotes())
+                .startDate(reminder.getStartDate())
                 .dueDate(reminder.getDueDate())
                 .priority(reminder.getPriority())
                 .flagged(reminder.isFlagged())
