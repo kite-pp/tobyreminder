@@ -9,7 +9,10 @@
       "Bash(./gradlew dependencies *)",
       "Bash(xargs -I{} jar tf {})",
       "Bash(python3 -c ' *)",
-      "Bash(xargs sed *)"
+      "Bash(xargs sed *)",
+      "Bash(mkdir -p ~/Library/KeyBindings)",
+      "Read(//Users/limkibeom/Library/KeyBindings/**)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

@@ -1,4 +1,4 @@
-package toby.ai.tobyreminder.service;
+package toby.ai.tobyreminder.ports.in;
 
 import toby.ai.tobyreminder.dto.request.ReminderListRequest;
 import toby.ai.tobyreminder.dto.response.ReminderListResponse;
@@ -9,11 +9,11 @@ public interface ReminderListService {
 
     List<ReminderListResponse> findAll();
 
+    ReminderListResponse findById(Long id);
+
     ReminderListResponse create(ReminderListRequest request);
 
     ReminderListResponse update(Long id, ReminderListRequest request);
-
-    ReminderListResponse findById(Long id);
 
     void delete(Long id);
 }

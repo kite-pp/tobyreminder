@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import toby.ai.tobyreminder.domain.ReminderList;
 import toby.ai.tobyreminder.dto.request.ReminderListRequest;
 import toby.ai.tobyreminder.dto.response.ReminderListResponse;
+import toby.ai.tobyreminder.ports.in.ReminderListService;
 import toby.ai.tobyreminder.repository.ReminderListRepository;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ReminderListServiceImpl implements ReminderListService {
+public class DefaultReminderListService implements ReminderListService {
 
     private final ReminderListRepository reminderListRepository;
 
@@ -24,6 +25,11 @@ public class ReminderListServiceImpl implements ReminderListService {
                 .stream()
                 .map(ReminderListResponse::from)
                 .toList();
+    }
+
+    @Override
+    public ReminderListResponse findById(Long id) {
+        return ReminderListResponse.from(getById(id));
     }
 
     @Override
@@ -43,11 +49,6 @@ public class ReminderListServiceImpl implements ReminderListService {
                 .build();
 
         return ReminderListResponse.from(reminderListRepository.save(reminderList));
-    }
-
-    @Override
-    public ReminderListResponse findById(Long id) {
-        return ReminderListResponse.from(getById(id));
     }
 
     @Override
