@@ -12,7 +12,9 @@
       "Bash(xargs sed *)",
       "Bash(mkdir -p ~/Library/KeyBindings)",
       "Read(//Users/limkibeom/Library/KeyBindings/**)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(jar tf *)",
+      "Bash(grep \"/$\")"
     ]
   }
 }

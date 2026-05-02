@@ -30,6 +30,13 @@ dto/response/      응답 DTO
 - 서비스 테스트: `@SpringBootTest` + `@Transactional` 통합 테스트, Mockito 사용 금지
   - `@BeforeEach`에서 `repository.deleteAll()`로 상태 초기화
 
+## Spring Boot 4 패키지 변경사항
+
+- Jackson 3.x: `ObjectMapper` → `tools.jackson.databind.ObjectMapper`
+- Jackson `@JsonProperty` 어노테이션은 기존 `com.fasterxml.jackson.annotation` 유지
+- `@AutoConfigureMockMvc` → `org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc`
+- 컨트롤러 테스트: `@SpringBootTest` + `@AutoConfigureMockMvc` + `@Transactional`
+
 ## 참고 문서
 
 - spec.md: 기능 명세

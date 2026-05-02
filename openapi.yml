@@ -1,0 +1,167 @@
+openapi: 3.0.3
+info:
+  title: TobyReminder API
+  description: Apple Reminders 웹 클론 REST API
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8080
+    description: 로컬 개발 서버
+
+tags:
+  - name: lists
+    description: 리마인더 목록 관리
+
+paths:
+  /api/lists:
+    get:
+      tags: [lists]
+      summary: 전체 목록 조회
+      operationId: findAllLists
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReminderListResponse'
+
+    post:
+      tags: [lists]
+      summary: 목록 생성
+      operationId: createList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReminderListRequest'
+      responses:
+        '201':
+          description: 생성 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReminderListResponse'
+
+  /api/lists/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+
+    get:
+      tags: [lists]
+      summary: 단건 목록 조회
+      operationId: findListById
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReminderListResponse'
+        '404':
+          description: 목록 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags: [lists]
+      summary: 목록 수정
+      operationId: updateList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReminderListRequest'
+      responses:
+        '200':
+          description: 수정 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReminderListResponse'
+        '404':
+          description: 목록 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [lists]
+      summary: 목록 삭제
+      operationId: deleteList
+      responses:
+        '204':
+          description: 삭제 성공
+        '404':
+          description: 목록 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ReminderListRequest:
+      type: object
+      required: [name, color]
+      properties:
+        name:
+          type: string
+          example: 업무
+        color:
+          type: string
+          example: '#007AFF'
+        icon:
+          type: string
+          nullable: true
+          example: null
+        isDefault:
+          type: boolean
+          default: false
+
+    ReminderListResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: 업무
+        color:
+          type: string
+          example: '#007AFF'
+        icon:
+          type: string
+          nullable: true
+        isDefault:
+          type: boolean
+        sortOrder:
+          type: integer
+          example: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: ReminderList not found with id: 99
