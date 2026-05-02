@@ -46,9 +46,14 @@ public class ReminderListServiceImpl implements ReminderListService {
     }
 
     @Override
+    public ReminderListResponse findById(Long id) {
+        return ReminderListResponse.from(getById(id));
+    }
+
+    @Override
     @Transactional
     public ReminderListResponse update(Long id, ReminderListRequest request) {
-        ReminderList reminderList = findById(id);
+        ReminderList reminderList = getById(id);
         reminderList.update(request.getName(), request.getColor());
         return ReminderListResponse.from(reminderList);
     }
@@ -62,7 +67,7 @@ public class ReminderListServiceImpl implements ReminderListService {
         reminderListRepository.deleteById(id);
     }
 
-    private ReminderList findById(Long id) {
+    private ReminderList getById(Long id) {
         return reminderListRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ReminderList not found with id: " + id));
     }

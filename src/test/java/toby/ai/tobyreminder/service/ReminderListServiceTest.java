@@ -97,6 +97,31 @@ class ReminderListServiceTest {
     }
 
     @Nested
+    @DisplayName("findById")
+    class FindById {
+
+        @Test
+        @DisplayName("존재하는 id로 조회하면 해당 목록을 반환한다")
+        void findById_returnsResponse() {
+            ReminderListResponse created = reminderListService.create(
+                    new ReminderListRequest("업무", "#007AFF", null, false));
+
+            ReminderListResponse result = reminderListService.findById(created.getId());
+
+            assertThat(result.getId()).isEqualTo(created.getId());
+            assertThat(result.getName()).isEqualTo("업무");
+        }
+
+        @Test
+        @DisplayName("존재하지 않는 id로 조회하면 EntityNotFoundException이 발생한다")
+        void findById_notFound_throwsException() {
+            assertThatThrownBy(() -> reminderListService.findById(99999L))
+                    .isInstanceOf(EntityNotFoundException.class)
+                    .hasMessageContaining("99999");
+        }
+    }
+
+    @Nested
     @DisplayName("update")
     class Update {
 

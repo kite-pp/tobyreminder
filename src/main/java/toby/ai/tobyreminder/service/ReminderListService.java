@@ -13,5 +13,7 @@ public interface ReminderListService {
 
     ReminderListResponse update(Long id, ReminderListRequest request);
 
+    ReminderListResponse findById(Long id);
+
     void delete(Long id);
 }
