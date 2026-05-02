@@ -1,25 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-apple-bg: #F2F2F7;
-  --color-apple-sidebar: #FFFFFF;
-  --color-apple-text: #1C1C1E;
-  --color-apple-secondary: #8E8E93;
-  --color-apple-separator: #E5E5EA;
-  --color-apple-blue: #007AFF;
-  --color-apple-red: #FF3B30;
-  --color-apple-orange: #FF9500;
-  --color-apple-yellow: #FFCC00;
-  --color-apple-green: #34C759;
-  --color-apple-purple: #AF52DE;
-  --color-apple-pink: #FF2D55;
-  --color-apple-gray: #8E8E93;
-  --color-apple-brown: #A2845E;
+  --color-apple-bg: #F7E8A8;
+  --color-apple-sidebar: #F5D356;
+  --color-apple-text: #1E1A0A;
+  --color-apple-secondary: #7A6A18;
+  --color-apple-separator: #E8C840;
+  --color-apple-blue: #2CB4D0;
+  --color-apple-red: #E03030;
+  --color-apple-orange: #F07830;
+  --color-apple-yellow: #F5E842;
+  --color-apple-green: #1A4D3A;
+  --color-apple-purple: #C9B4E8;
+  --color-apple-pink: #F5667A;
+  --color-apple-gray: #8A9B78;
+  --color-apple-brown: #3A1808;
+  --color-apple-card: #FFF8D0;
 }
 
 :root {
-  --background: #F2F2F7;
-  --foreground: #1C1C1E;
+  --background: #F7E8A8;
+  --foreground: #1E1A0A;
 }
 
 body {

@@ -86,7 +86,7 @@ export default function DetailPanel() {
 
   return (
     <div
-      className={`shrink-0 h-full bg-white border-apple-separator flex flex-col overflow-hidden transition-all duration-200 ease-out ${
+      className={`shrink-0 h-full bg-apple-card border-apple-separator flex flex-col overflow-hidden transition-all duration-200 ease-out ${
         isOpen ? 'w-80 border-l' : 'w-0 border-l-0'
       }`}
     >

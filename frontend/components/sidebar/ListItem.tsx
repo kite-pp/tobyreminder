@@ -54,7 +54,7 @@ export default function ListItem({ list, reminderCount }: Props) {
         <>
           <div className="fixed inset-0 z-40" onClick={() => setMenuPos(null)} />
           <ul
-            className="fixed z-50 bg-white rounded-xl shadow-lg py-1 min-w-36 text-sm"
+            className="fixed z-50 bg-apple-card rounded-xl shadow-lg py-1 min-w-36 text-sm"
             style={{ top: menuPos.y, left: menuPos.x }}
           >
             <li
