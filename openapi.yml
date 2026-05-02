@@ -164,4 +164,4 @@ components:
       properties:
         message:
           type: string
-          example: ReminderList not found with id: 99
+          example: "ReminderList not found with id: 99"
