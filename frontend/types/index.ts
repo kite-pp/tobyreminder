@@ -38,3 +38,11 @@ export interface ReminderListRequest {
   icon?: string | null;
   isDefault?: boolean;
 }
+
+export interface CountResponse {
+  today: number;
+  scheduled: number;
+  all: number;
+  flagged: number;
+  completed: number;
+}

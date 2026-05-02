@@ -125,29 +125,29 @@
 
 ### Backend
 
-- [ ] `ReminderRepository` 파생 쿼리 추가
-  - [ ] `findByDueDateBetweenAndCompletedFalse` — 오늘
-  - [ ] `findByDueDateNotNullAndCompletedFalse` — 예정
-  - [ ] `findByCompletedFalse` — 전체
-  - [ ] `findByFlaggedTrueAndCompletedFalse` — 플래그됨
-  - [ ] `findByCompletedTrue(Sort)` — 완료됨
-- [ ] `ReminderController` 확장
-  - [ ] `GET /api/reminders?smart=today|scheduled|all|flagged|completed`
-  - [ ] `GET /api/reminders/count` — { today, scheduled, all, flagged, completed }
-- [ ] `dto/response/CountResponse.java`
+- [x] `ReminderRepository` 파생 쿼리 추가
+  - [x] `findByDueDateBetweenAndCompletedFalse` — 오늘
+  - [x] `findByDueDateNotNullAndCompletedFalse` — 예정
+  - [x] `findByCompletedFalse` — 전체
+  - [x] `findByFlaggedTrueAndCompletedFalse` — 플래그됨
+  - [x] `findByCompletedTrue(Sort)` — 완료됨
+- [x] `ReminderController` 확장
+  - [x] `GET /api/reminders?smart=today|scheduled|all|flagged|completed`
+  - [x] `GET /api/reminders/count` — { today, scheduled, all, flagged, completed }
+- [x] `dto/response/CountResponse.java`
 
 ### Frontend
 
-- [ ] `app/(main)/layout.tsx` — 사이드바 포함 공통 레이아웃
-- [ ] `app/(main)/smart/[type]/page.tsx` — 스마트 목록 페이지
-- [ ] `components/sidebar/SmartLists.tsx` — 2열 그리드 카드 컨테이너
-- [ ] `components/sidebar/SmartListCard.tsx`
-  - [ ] rounded-2xl, accent tint 배경
-  - [ ] Lucide 아이콘 (CalendarDays/Calendar/Tray/Flag/CheckCircle)
-  - [ ] 카운트 숫자 (28px bold)
-- [ ] 카운트 API 연동 — 실시간 갱신
+- [x] `app/(main)/layout.tsx` — 사이드바 포함 공통 레이아웃
+- [x] `app/(main)/smart/[type]/page.tsx` — 스마트 목록 페이지
+- [x] `components/sidebar/SmartLists.tsx` — 2열 그리드 카드 컨테이너
+- [x] `components/sidebar/SmartListCard.tsx`
+  - [x] rounded-2xl, accent tint 배경
+  - [x] Lucide 아이콘 (CalendarDays/Calendar/Inbox/Flag/CheckCircle)
+  - [x] 카운트 숫자 (28px bold)
+- [x] 카운트 API 연동 — 실시간 갱신
 
-**[ ] Phase 3 완료 기준: 스마트 목록 카드 클릭 시 필터링, 카운트 정확히 표시**
+**[x] Phase 3 완료 기준: 스마트 목록 카드 클릭 시 필터링, 카운트 정확히 표시**
 
 ---
 
@@ -279,7 +279,7 @@
 | Phase 0 | 프로젝트 기반 구성 | 🔄 진행 중 |
 | Phase 1 | 목록(List) CRUD | ✅ 완료 |
 | Phase 2 | 리마인더 기본 CRUD | ✅ 완료 |
-| Phase 3 | 스마트 목록 & 라우팅 | ⬜ 미시작 |
+| Phase 3 | 스마트 목록 & 라우팅 | ✅ 완료 |
 | Phase 4 | 상세 속성 | ⬜ 미시작 |
 | Phase 5 | 서브태스크 | ⬜ 미시작 |
 | Phase 6 | 검색 & 드래그앤드롭 | ⬜ 미시작 |

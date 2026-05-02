@@ -8,13 +8,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import toby.ai.tobyreminder.domain.Reminder;
 import toby.ai.tobyreminder.domain.ReminderList;
+import toby.ai.tobyreminder.domain.enums.Priority;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
+import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
 import toby.ai.tobyreminder.repository.ReminderListRepository;
 import toby.ai.tobyreminder.repository.ReminderRepository;
 import toby.ai.tobyreminder.service.ports.in.ReminderService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -175,6 +179,77 @@ class ReminderServiceTest {
         void delete_notFound_throwsException() {
             assertThatThrownBy(() -> reminderService.delete(99999L))
                     .isInstanceOf(EntityNotFoundException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("findBySmart")
+    class FindBySmart {
+
+        @Test
+        @DisplayName("all 타입은 미완료 리마인더를 모두 반환한다")
+        void findBySmart_all_returnsIncomplete() {
+            var r1 = reminderService.create(new ReminderRequest("할일1", null, testList.getId()));
+            var r2 = reminderService.create(new ReminderRequest("할일2", null, testList.getId()));
+            reminderService.toggleComplete(r1.getId());
+
+            List<ReminderResponse> result = reminderService.findBySmart("all");
+
+            assertThat(result).hasSize(1);
+            assertThat(result.get(0).getId()).isEqualTo(r2.getId());
+        }
+
+        @Test
+        @DisplayName("completed 타입은 완료된 리마인더를 반환한다")
+        void findBySmart_completed_returnsCompleted() {
+            var r1 = reminderService.create(new ReminderRequest("할일1", null, testList.getId()));
+            reminderService.create(new ReminderRequest("할일2", null, testList.getId()));
+            reminderService.toggleComplete(r1.getId());
+
+            List<ReminderResponse> result = reminderService.findBySmart("completed");
+
+            assertThat(result).hasSize(1);
+            assertThat(result.get(0).getId()).isEqualTo(r1.getId());
+        }
+
+        @Test
+        @DisplayName("flagged 타입은 플래그된 미완료 리마인더를 반환한다")
+        void findBySmart_flagged_returnsFlagged() {
+            reminderService.create(new ReminderRequest("할일1", null, testList.getId()));
+            var r2 = reminderService.create(new ReminderRequest("할일2", null, testList.getId()));
+            Reminder reminder = reminderRepository.findById(r2.getId()).orElseThrow();
+            reminder.toggleFlag();
+            reminderRepository.save(reminder);
+
+            List<ReminderResponse> result = reminderService.findBySmart("flagged");
+
+            assertThat(result).hasSize(1);
+            assertThat(result.get(0).getId()).isEqualTo(r2.getId());
+        }
+
+        @Test
+        @DisplayName("알 수 없는 타입은 IllegalArgumentException을 발생시킨다")
+        void findBySmart_unknownType_throwsException() {
+            assertThatThrownBy(() -> reminderService.findBySmart("unknown"))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("getCount")
+    class GetCount {
+
+        @Test
+        @DisplayName("카운트가 올바르게 반환된다")
+        void getCount_returnsCorrectCounts() {
+            var r1 = reminderService.create(new ReminderRequest("할일1", null, testList.getId()));
+            reminderService.create(new ReminderRequest("할일2", null, testList.getId()));
+            reminderService.toggleComplete(r1.getId());
+
+            CountResponse count = reminderService.getCount();
+
+            assertThat(count.getAll()).isEqualTo(1);
+            assertThat(count.getCompleted()).isEqualTo(1);
         }
     }
 }

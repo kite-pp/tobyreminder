@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
+import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
 import toby.ai.tobyreminder.service.ports.in.ReminderService;
 
@@ -17,8 +18,17 @@ public class ReminderController {
     private final ReminderService reminderService;
 
     @GetMapping
-    public List<ReminderResponse> findByListId(@RequestParam Long listId) {
-        return reminderService.findByListId(listId);
+    public List<ReminderResponse> findReminders(
+            @RequestParam(required = false) Long listId,
+            @RequestParam(required = false) String smart) {
+        if (smart != null) return reminderService.findBySmart(smart);
+        if (listId != null) return reminderService.findByListId(listId);
+        throw new IllegalArgumentException("listId or smart is required");
+    }
+
+    @GetMapping("/count")
+    public CountResponse getCount() {
+        return reminderService.getCount();
     }
 
     @PostMapping

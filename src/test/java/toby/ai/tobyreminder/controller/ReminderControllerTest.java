@@ -57,6 +57,66 @@ class ReminderControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", hasSize(2)));
         }
+
+        @Test
+        @DisplayName("파라미터 없이 요청하면 400을 반환한다")
+        void findReminders_noParam_returns400() throws Exception {
+            mockMvc.perform(get("/api/reminders"))
+                    .andExpect(status().isBadRequest());
+        }
+    }
+
+    @Nested
+    @DisplayName("GET /api/reminders?smart=")
+    class FindBySmart {
+
+        @Test
+        @DisplayName("smart=all 은 미완료 리마인더를 반환한다")
+        void findBySmart_all_returnsIncomplete() throws Exception {
+            var r1 = reminderService.create(new ReminderRequest("할일1", null, testList.getId()));
+            reminderService.create(new ReminderRequest("할일2", null, testList.getId()));
+            reminderService.toggleComplete(r1.getId());
+
+            mockMvc.perform(get("/api/reminders").param("smart", "all"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(1)));
+        }
+
+        @Test
+        @DisplayName("smart=completed 는 완료된 리마인더를 반환한다")
+        void findBySmart_completed() throws Exception {
+            var r1 = reminderService.create(new ReminderRequest("할일1", null, testList.getId()));
+            reminderService.toggleComplete(r1.getId());
+
+            mockMvc.perform(get("/api/reminders").param("smart", "completed"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(1)));
+        }
+
+        @Test
+        @DisplayName("알 수 없는 smart 타입은 400을 반환한다")
+        void findBySmart_unknownType_returns400() throws Exception {
+            mockMvc.perform(get("/api/reminders").param("smart", "unknown"))
+                    .andExpect(status().isBadRequest());
+        }
+    }
+
+    @Nested
+    @DisplayName("GET /api/reminders/count")
+    class GetCount {
+
+        @Test
+        @DisplayName("카운트 정보를 반환한다")
+        void getCount_returnsCount() throws Exception {
+            var r1 = reminderService.create(new ReminderRequest("할일1", null, testList.getId()));
+            reminderService.create(new ReminderRequest("할일2", null, testList.getId()));
+            reminderService.toggleComplete(r1.getId());
+
+            mockMvc.perform(get("/api/reminders/count"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.all").value(1))
+                    .andExpect(jsonPath("$.completed").value(1));
+        }
     }
 
     @Nested

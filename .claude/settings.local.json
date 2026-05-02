@@ -18,7 +18,10 @@
       "Bash(npm --version)",
       "Bash(npx create-next-app@latest frontend --typescript --tailwind --app --no-eslint --no-src-dir --import-alias \"@/*\" --yes)",
       "Bash(npm install *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); const keys = Object.keys\\(l\\).filter\\(k => k.toLowerCase\\(\\).includes\\('inbox'\\) || k.toLowerCase\\(\\).includes\\('tray'\\) || k.toLowerCase\\(\\).includes\\('list'\\) || k.toLowerCase\\(\\).includes\\('all'\\)\\); console.log\\(keys.slice\\(0,20\\)\\)\")",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); const keys = Object.keys\\(l\\).filter\\(k => !k.endsWith\\('Icon'\\) && \\(k.toLowerCase\\(\\).includes\\('inbox'\\) || k.toLowerCase\\(\\).includes\\('check'\\)\\)\\); console.log\\(keys.slice\\(0,20\\)\\)\")",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); const keys = Object.keys\\(l\\).filter\\(k => !k.endsWith\\('Icon'\\) && k.toLowerCase\\(\\).includes\\('inbox'\\)\\); console.log\\(keys\\)\")"
     ]
   }
 }

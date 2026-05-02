@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import toby.ai.tobyreminder.domain.Reminder;
 import toby.ai.tobyreminder.domain.ReminderList;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
+import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
 import toby.ai.tobyreminder.repository.ReminderListRepository;
 import toby.ai.tobyreminder.repository.ReminderRepository;
 import toby.ai.tobyreminder.service.ports.in.ReminderService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -73,6 +75,35 @@ public class DefaultReminderService implements ReminderService {
             throw new EntityNotFoundException("Reminder not found with id: " + id);
         }
         reminderRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ReminderResponse> findBySmart(String type) {
+        LocalDateTime now = LocalDateTime.now();
+        List<Reminder> result = switch (type) {
+            case "today" -> reminderRepository.findByDueDateBetweenAndCompletedFalse(
+                    now.toLocalDate().atStartOfDay(), now.toLocalDate().atTime(23, 59, 59));
+            case "scheduled" -> reminderRepository.findByDueDateNotNullAndCompletedFalse();
+            case "all" -> reminderRepository.findByCompletedFalse();
+            case "flagged" -> reminderRepository.findByFlaggedTrueAndCompletedFalse();
+            case "completed" -> reminderRepository.findByCompletedTrue();
+            default -> throw new IllegalArgumentException("Unknown smart type: " + type);
+        };
+        return result.stream().map(ReminderResponse::from).toList();
+    }
+
+    @Override
+    public CountResponse getCount() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = now.toLocalDate().atStartOfDay();
+        LocalDateTime end = now.toLocalDate().atTime(23, 59, 59);
+        return CountResponse.builder()
+                .today(reminderRepository.countByDueDateBetweenAndCompletedFalse(start, end))
+                .scheduled(reminderRepository.countByDueDateNotNullAndCompletedFalse())
+                .all(reminderRepository.countByCompletedFalse())
+                .flagged(reminderRepository.countByFlaggedTrueAndCompletedFalse())
+                .completed(reminderRepository.countByCompletedTrue())
+                .build();
     }
 
     private Reminder getById(Long id) {
