@@ -252,4 +252,40 @@ class ReminderServiceTest {
             assertThat(count.getCompleted()).isEqualTo(1);
         }
     }
+
+    @Nested
+    @DisplayName("toggleFlag")
+    class ToggleFlag {
+
+        @Test
+        @DisplayName("플래그를 토글하면 flagged 상태가 반전된다")
+        void toggleFlag_flipsFlag() {
+            var created = reminderService.create(new ReminderRequest("할일", null, testList.getId()));
+
+            reminderService.toggleFlag(created.getId());
+
+            var reminder = reminderRepository.findById(created.getId()).orElseThrow();
+            assertThat(reminder.isFlagged()).isTrue();
+
+            reminderService.toggleFlag(created.getId());
+            var reminder2 = reminderRepository.findById(created.getId()).orElseThrow();
+            assertThat(reminder2.isFlagged()).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("updatePriority")
+    class UpdatePriority {
+
+        @Test
+        @DisplayName("우선순위를 업데이트한다")
+        void updatePriority_changesPriority() {
+            var created = reminderService.create(new ReminderRequest("할일", null, testList.getId()));
+
+            reminderService.updatePriority(created.getId(), Priority.HIGH);
+
+            var reminder = reminderRepository.findById(created.getId()).orElseThrow();
+            assertThat(reminder.getPriority()).isEqualTo(Priority.HIGH);
+        }
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toby.ai.tobyreminder.domain.Reminder;
 import toby.ai.tobyreminder.domain.ReminderList;
+import toby.ai.tobyreminder.domain.enums.Priority;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
 import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
@@ -58,7 +59,15 @@ public class DefaultReminderService implements ReminderService {
     @Transactional
     public ReminderResponse update(Long id, ReminderRequest request) {
         Reminder reminder = getById(id);
-        reminder.update(request.getTitle(), request.getNotes(), null, reminder.getPriority());
+        reminder.update(
+                request.getTitle(),
+                request.getNotes(),
+                request.getDueDate(),
+                request.getPriority() != null ? request.getPriority() : reminder.getPriority()
+        );
+        if (request.getFlagged() != null) {
+            if (request.getFlagged() != reminder.isFlagged()) reminder.toggleFlag();
+        }
         return ReminderResponse.from(reminder);
     }
 
@@ -75,6 +84,19 @@ public class DefaultReminderService implements ReminderService {
             throw new EntityNotFoundException("Reminder not found with id: " + id);
         }
         reminderRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void toggleFlag(Long id) {
+        getById(id).toggleFlag();
+    }
+
+    @Override
+    @Transactional
+    public void updatePriority(Long id, Priority priority) {
+        Reminder r = getById(id);
+        r.update(r.getTitle(), r.getNotes(), r.getDueDate(), priority);
     }
 
     @Override

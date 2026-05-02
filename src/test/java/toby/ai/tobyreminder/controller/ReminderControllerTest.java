@@ -17,6 +17,8 @@ import toby.ai.tobyreminder.repository.ReminderRepository;
 import toby.ai.tobyreminder.service.ports.in.ReminderService;
 import tools.jackson.databind.ObjectMapper;
 
+import java.util.Map;
+
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -198,6 +200,37 @@ class ReminderControllerTest {
         void delete_notFound_returns404() throws Exception {
             mockMvc.perform(delete("/api/reminders/{id}", 99999L))
                     .andExpect(status().isNotFound());
+        }
+    }
+
+    @Nested
+    @DisplayName("PATCH /api/reminders/{id}/flag")
+    class ToggleFlag {
+
+        @Test
+        @DisplayName("플래그를 토글하면 204를 반환한다")
+        void toggleFlag_returns204() throws Exception {
+            var created = reminderService.create(new ReminderRequest("할일", null, testList.getId()));
+
+            mockMvc.perform(patch("/api/reminders/{id}/flag", created.getId()))
+                    .andExpect(status().isNoContent());
+        }
+    }
+
+    @Nested
+    @DisplayName("PATCH /api/reminders/{id}/priority")
+    class UpdatePriority {
+
+        @Test
+        @DisplayName("우선순위를 업데이트하면 204를 반환한다")
+        void updatePriority_returns204() throws Exception {
+            var created = reminderService.create(new ReminderRequest("할일", null, testList.getId()));
+            var body = Map.of("priority", "HIGH");
+
+            mockMvc.perform(patch("/api/reminders/{id}/priority", created.getId())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(body)))
+                    .andExpect(status().isNoContent());
         }
     }
 }

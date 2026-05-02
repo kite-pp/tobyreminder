@@ -1,26 +1,62 @@
 'use client';
 
+import { Flag } from 'lucide-react';
 import type { Reminder } from '@/types';
 import { useToggleCompleteMutation } from '@/hooks/useReminders';
+import { useReminderStore } from '@/store/reminderStore';
 
 interface Props {
   reminder: Reminder;
   accentColor?: string;
 }
 
+function getDueDateColor(dueDate: string): string {
+  const now = new Date();
+  const due = new Date(dueDate);
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const dueDay = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+
+  if (dueDay < today) return '#FF3B30'; // past - red
+  if (dueDay.getTime() === today.getTime()) return '#007AFF'; // today - blue
+  return '#8E8E93'; // future - gray
+}
+
+function formatDueDate(dueDate: string): string {
+  const date = new Date(dueDate);
+  return date.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
+}
+
+const PRIORITY_COLORS: Record<string, string> = {
+  HIGH: '#FF3B30',
+  MEDIUM: '#FF9500',
+  LOW: '#007AFF',
+};
+
 export default function ReminderRow({ reminder, accentColor = '#007AFF' }: Props) {
   const toggleComplete = useToggleCompleteMutation();
+  const selectReminder = useReminderStore((s) => s.selectReminder);
+  const selectedReminder = useReminderStore((s) => s.selectedReminder);
+  const isSelected = selectedReminder?.id === reminder.id;
 
   function handleCheckboxClick(e: React.MouseEvent) {
     e.stopPropagation();
     toggleComplete.mutate({ id: reminder.id });
   }
 
+  function handleRowClick() {
+    selectReminder(isSelected ? null : reminder);
+  }
+
   return (
-    <li className="flex items-center gap-3 px-4 py-2 hover:bg-apple-bg rounded-lg cursor-pointer group">
+    <li
+      className={`flex items-start gap-3 px-4 py-2 rounded-lg cursor-pointer group ${
+        isSelected ? 'bg-apple-separator' : 'hover:bg-apple-bg'
+      }`}
+      onClick={handleRowClick}
+    >
       <button
         onClick={handleCheckboxClick}
-        className="shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors"
+        className="shrink-0 w-5 h-5 mt-0.5 rounded-full border-2 flex items-center justify-center transition-colors"
         style={{
           borderColor: accentColor,
           backgroundColor: reminder.completed ? accentColor : 'transparent',
@@ -39,13 +75,36 @@ export default function ReminderRow({ reminder, accentColor = '#007AFF' }: Props
           </svg>
         )}
       </button>
-      <span
-        className={`flex-1 text-sm ${
-          reminder.completed ? 'line-through opacity-40 text-apple-text' : 'text-apple-text'
-        }`}
-      >
-        {reminder.title}
-      </span>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-1">
+          <span
+            className={`flex-1 text-sm ${
+              reminder.completed ? 'line-through opacity-40 text-apple-text' : 'text-apple-text'
+            }`}
+          >
+            {reminder.title}
+          </span>
+          {reminder.priority !== 'NONE' && PRIORITY_COLORS[reminder.priority] && (
+            <span
+              className="text-xs font-bold"
+              style={{ color: PRIORITY_COLORS[reminder.priority] }}
+            >
+              !
+            </span>
+          )}
+          {reminder.flagged && (
+            <Flag size={12} className="shrink-0" style={{ color: '#FF9500' }} fill="#FF9500" />
+          )}
+        </div>
+        {reminder.dueDate && (
+          <div
+            className="text-xs mt-0.5"
+            style={{ color: getDueDateColor(reminder.dueDate) }}
+          >
+            {formatDueDate(reminder.dueDate)}
+          </div>
+        )}
+      </div>
     </li>
   );
 }

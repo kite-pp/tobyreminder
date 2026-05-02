@@ -155,30 +155,30 @@
 
 ### Backend
 
-- [ ] `ReminderRequest` 필드 추가 — dueDate, priority, flagged
-- [ ] `ReminderResponse` 필드 추가 — dueDate, priority, flagged
-- [ ] `ReminderService` 업데이트 — 신규 필드 반영
-- [ ] `ReminderController` 엔드포인트 추가
-  - [ ] `PATCH /api/reminders/{id}/flag`
-  - [ ] `PATCH /api/reminders/{id}/priority`
+- [x] `ReminderRequest` 필드 추가 — dueDate, priority, flagged
+- [x] `ReminderResponse` 필드 추가 — dueDate, priority, flagged
+- [x] `ReminderService` 업데이트 — 신규 필드 반영
+- [x] `ReminderController` 엔드포인트 추가
+  - [x] `PATCH /api/reminders/{id}/flag`
+  - [x] `PATCH /api/reminders/{id}/priority`
 
 ### Frontend
 
-- [ ] `components/reminder/DetailPanel.tsx`
-  - [ ] 우측 슬라이드인 패널 (320px, transform transition 200ms)
-  - [ ] 제목 편집 input (onBlur 자동 저장)
-  - [ ] 메모 편집 textarea (onBlur 자동 저장)
-  - [ ] 마감일 선택 (`<input type="datetime-local">`)
-  - [ ] 플래그 토글 버튼
-  - [ ] 우선순위 드롭다운 (None/낮음/중간/높음)
-  - [ ] 목록 변경 드롭다운
-- [ ] `ReminderRow.tsx` 메타 정보 표시 업데이트
-  - [ ] 마감일 색상 (지남=red, 오늘=blue, 이후=gray)
-  - [ ] 우선순위 `!` 기호 표시
-  - [ ] 플래그 아이콘 (활성 시 orange)
-- [ ] 리마인더 클릭 시 DetailPanel 열기/닫기 연동
+- [x] `components/reminder/DetailPanel.tsx`
+  - [x] 우측 슬라이드인 패널 (320px, transform transition 200ms)
+  - [x] 제목 편집 input (onBlur 자동 저장)
+  - [x] 메모 편집 textarea (onBlur 자동 저장)
+  - [x] 마감일 선택 (`<input type="datetime-local">`)
+  - [x] 플래그 토글 버튼
+  - [x] 우선순위 드롭다운 (None/낮음/중간/높음)
+  - [x] 목록 변경 드롭다운
+- [x] `ReminderRow.tsx` 메타 정보 표시 업데이트
+  - [x] 마감일 색상 (지남=red, 오늘=blue, 이후=gray)
+  - [x] 우선순위 `!` 기호 표시
+  - [x] 플래그 아이콘 (활성 시 orange)
+- [x] 리마인더 클릭 시 DetailPanel 열기/닫기 연동
 
-**[ ] Phase 4 완료 기준: 리마인더 클릭 → 우측 패널, 마감일/우선순위/플래그 설정 후 목록 반영**
+**[x] Phase 4 완료 기준: 리마인더 클릭 → 우측 패널, 마감일/우선순위/플래그 설정 후 목록 반영**
 
 ---
 
@@ -280,7 +280,7 @@
 | Phase 1 | 목록(List) CRUD | ✅ 완료 |
 | Phase 2 | 리마인더 기본 CRUD | ✅ 완료 |
 | Phase 3 | 스마트 목록 & 라우팅 | ✅ 완료 |
-| Phase 4 | 상세 속성 | ⬜ 미시작 |
+| Phase 4 | 상세 속성 | ✅ 완료 |
 | Phase 5 | 서브태스크 | ⬜ 미시작 |
 | Phase 6 | 검색 & 드래그앤드롭 | ⬜ 미시작 |
 | Phase 7 | UI 완성도 & 키보드 | ⬜ 미시작 |

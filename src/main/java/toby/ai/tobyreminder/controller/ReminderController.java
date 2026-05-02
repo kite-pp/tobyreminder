@@ -3,12 +3,14 @@ package toby.ai.tobyreminder.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import toby.ai.tobyreminder.domain.enums.Priority;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
 import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
 import toby.ai.tobyreminder.service.ports.in.ReminderService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reminders")
@@ -46,6 +48,18 @@ public class ReminderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void toggleComplete(@PathVariable Long id) {
         reminderService.toggleComplete(id);
+    }
+
+    @PatchMapping("/{id}/flag")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void toggleFlag(@PathVariable Long id) {
+        reminderService.toggleFlag(id);
+    }
+
+    @PatchMapping("/{id}/priority")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePriority(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        reminderService.updatePriority(id, Priority.valueOf(body.get("priority")));
     }
 
     @DeleteMapping("/{id}")

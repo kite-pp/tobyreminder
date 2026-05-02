@@ -1,5 +1,6 @@
 package toby.ai.tobyreminder.service.ports.in;
 
+import toby.ai.tobyreminder.domain.enums.Priority;
 import toby.ai.tobyreminder.dto.request.ReminderRequest;
 import toby.ai.tobyreminder.dto.response.CountResponse;
 import toby.ai.tobyreminder.dto.response.ReminderResponse;
@@ -21,4 +22,8 @@ public interface ReminderService {
     List<ReminderResponse> findBySmart(String type);
 
     CountResponse getCount();
+
+    void toggleFlag(Long id);
+
+    void updatePriority(Long id, Priority priority);
 }

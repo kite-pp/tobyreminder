@@ -3,6 +3,7 @@ package toby.ai.tobyreminder.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import toby.ai.tobyreminder.domain.Reminder;
+import toby.ai.tobyreminder.domain.enums.Priority;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,9 @@ public class ReminderResponse {
     private Long listId;
     private String title;
     private String notes;
+    private LocalDateTime dueDate;
+    private Priority priority;
+    private boolean flagged;
     private boolean completed;
     private LocalDateTime completedAt;
     private LocalDateTime createdAt;
@@ -24,6 +28,9 @@ public class ReminderResponse {
                 .listId(reminder.getList() != null ? reminder.getList().getId() : null)
                 .title(reminder.getTitle())
                 .notes(reminder.getNotes())
+                .dueDate(reminder.getDueDate())
+                .priority(reminder.getPriority())
+                .flagged(reminder.isFlagged())
                 .completed(reminder.isCompleted())
                 .completedAt(reminder.getCompletedAt())
                 .createdAt(reminder.getCreatedAt())

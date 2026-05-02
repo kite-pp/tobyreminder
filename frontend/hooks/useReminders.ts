@@ -26,8 +26,15 @@ export function useCreateReminderMutation() {
 export function useUpdateReminderMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...request }: { id: number; title: string; notes?: string | null; listId: number }) =>
-      api.put<Reminder>(`/api/reminders/${id}`, request),
+    mutationFn: ({ id, ...request }: {
+      id: number;
+      title: string;
+      notes?: string | null;
+      listId: number;
+      dueDate?: string | null;
+      priority?: string;
+      flagged?: boolean;
+    }) => api.put<Reminder>(`/api/reminders/${id}`, request),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
   });
 }
@@ -44,6 +51,23 @@ export function useDeleteReminderMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => api.delete(`/api/reminders/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+  });
+}
+
+export function useToggleFlagMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id }: { id: number }) => api.patch(`/api/reminders/${id}/flag`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
+  });
+}
+
+export function useUpdatePriorityMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, priority }: { id: number; priority: string }) =>
+      api.patch(`/api/reminders/${id}/priority`, { priority }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEY }),
   });
 }
