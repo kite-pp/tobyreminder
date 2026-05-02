@@ -50,13 +50,15 @@
 
 ### Backend
 
-- [ ] `dto/request/ReminderListRequest.java` — name, color, icon
-- [ ] `dto/response/ReminderListResponse.java` — id, name, color, icon, sortOrder, reminderCount
-- [ ] `service/ReminderListService.java`
-  - [ ] `findAll()` — sortOrder ASC
-  - [ ] `create(request)` — sortOrder = max+1
-  - [ ] `update(id, request)` — 이름/색상/아이콘 수정
-  - [ ] `delete(id)` — cascade 삭제
+- [x] `dto/request/ReminderListRequest.java` — name, color, icon, isDefault
+- [x] `dto/response/ReminderListResponse.java` — id, name, color, icon, isDefault, sortOrder, createdAt, updatedAt
+- [x] `repository/ReminderListRepository.java` — JpaRepository<ReminderList, Long>
+- [x] `service/ReminderListService.java`
+  - [x] `findAll()` — sortOrder ASC
+  - [x] `create(request)` — sortOrder = max+1
+  - [x] `update(id, request)` — 이름/색상 수정
+  - [x] `delete(id)` — cascade 삭제
+- [x] `test/service/ReminderListServiceTest.java` — findAll/create/update/delete Mockito 단위 테스트
 - [ ] `controller/ReminderListController.java`
   - [ ] `GET /api/lists`
   - [ ] `POST /api/lists`
